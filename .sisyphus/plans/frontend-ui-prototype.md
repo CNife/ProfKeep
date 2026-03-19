@@ -208,7 +208,7 @@ Max Concurrent: 7 (Waves 1 & 2)
 
 ## TODOs
 
-- [ ] 1. Vite + React 18 + TypeScript 项目初始化
+- [x] 1. Vite + React 18 + TypeScript 项目初始化
 
   **What to do**:
   - 使用 `pnpm create vite@latest frontend --template react-ts` 创建项目
@@ -287,7 +287,7 @@ Max Concurrent: 7 (Waves 1 & 2)
   - Files: `frontend/index.html`, `frontend/package.json`, `frontend/vite.config.ts`, `frontend/tsconfig.json`, `frontend/src/main.tsx`, `frontend/src/App.tsx`, `frontend/src/index.css`
   - Pre-commit: `pnpm run typecheck`
 
-- [ ] 2. Ant Design 5.x 主题配置 + 设计系统 tokens
+- [x] 2. Ant Design 5.x 主题配置 + 设计系统 tokens
 
   **What to do**:
   - 安装 antd: `pnpm add antd`
@@ -369,7 +369,7 @@ Max Concurrent: 7 (Waves 1 & 2)
   - Files: `frontend/src/config/theme.ts`, `frontend/src/main.tsx`
   - Pre-commit: `pnpm run typecheck`
 
-- [ ] 3. 路径别名 + ESLint + Prettier 配置
+- [x] 3. 路径别名 + ESLint + Prettier 配置
 
   **What to do**:
   - 配置 vite.config.ts 路径别名：@/components, @/pages, @/stores, @/services, @/utils, @/hooks, @/types, @/config
@@ -438,7 +438,7 @@ Max Concurrent: 7 (Waves 1 & 2)
   - Files: `frontend/vite.config.ts`, `frontend/.eslintrc.cjs`, `frontend/.prettierrc`, `frontend/package.json`
   - Pre-commit: `pnpm run lint`
 
-- [ ] 4. Vitest + React Testing Library 测试环境配置
+- [x] 4. Vitest + React Testing Library 测试环境配置
 
   **What to do**:
   - 安装 Vitest: `pnpm add -D vitest @vitejs/plugin-react`
@@ -507,7 +507,7 @@ Max Concurrent: 7 (Waves 1 & 2)
   - Files: `frontend/vite.config.ts`, `frontend/src/__tests__/setup.ts`, `frontend/src/__tests__/App.test.tsx`
   - Pre-commit: `pnpm run test`
 
-- [ ] 5. MSW Mock Service Worker 配置 + 基础 handlers
+- [x] 5. MSW Mock Service Worker 配置 + 基础 handlers
 
   **What to do**:
   - 安装 MSW: `pnpm add -D msw`
@@ -581,7 +581,7 @@ Max Concurrent: 7 (Waves 1 & 2)
   - Files: `frontend/src/mocks/handlers.ts`, `frontend/src/mocks/browser.ts`, `frontend/src/main.tsx`
   - Pre-commit: `pnpm run test`
 
-- [ ] 6. Zustand + React Query 项目级配置
+- [x] 6. Zustand + React Query 项目级配置
 
   **What to do**:
   - 安装 Zustand: `pnpm add zustand`
@@ -651,7 +651,7 @@ Max Concurrent: 7 (Waves 1 & 2)
   - Files: `frontend/src/stores/index.ts`, `frontend/src/hooks/useQueryClient.ts`, `frontend/src/main.tsx`
   - Pre-commit: `pnpm run test`
 
-- [ ] 7. 工具函数 (calculators, formatters) + TDD
+- [x] 7. 工具函数 (calculators, formatters) + TDD
 
   **What to do**:
   - 创建 src/utils/calculators.ts:
@@ -728,7 +728,7 @@ Max Concurrent: 7 (Waves 1 & 2)
   - Files: `frontend/src/utils/calculators.ts`, `frontend/src/utils/formatters.ts`, `frontend/src/utils/__tests__/calculators.test.ts`, `frontend/src/utils/__tests__/formatters.test.ts`
   - Pre-commit: `pnpm run test`
 
-- [ ] 8. Layout 组件 (Header, SideNav) + 响应式适配
+- [x] 8. Layout 组件 (Header, SideNav) + 响应式适配
 
   **What to do**:
   - 创建 src/components/Layout/Header.tsx:
@@ -809,7 +809,7 @@ Max Concurrent: 7 (Waves 1 & 2)
   - Files: `frontend/src/components/Layout/Header.tsx`, `frontend/src/components/Layout/SideNav.tsx`, `frontend/src/components/Layout/index.ts`
   - Pre-commit: `pnpm run lint && pnpm run typecheck`
 
-- [ ] 9. React Router v6 路由配置 + 页面骨架
+- [x] 9. React Router v6 路由配置 + 页面骨架
 
   **What to do**:
   - 安装 React Router: `pnpm add react-router-dom`
@@ -888,7 +888,7 @@ Max Concurrent: 7 (Waves 1 & 2)
   - Files: `frontend/src/router/index.tsx`, `frontend/src/pages/Dashboard.tsx`, `frontend/src/pages/Accounts.tsx`, `frontend/src/pages/Holdings.tsx`, `frontend/src/pages/Transactions.tsx`, `frontend/src/pages/Analytics.tsx`, `frontend/src/pages/Settings.tsx`, `frontend/src/App.tsx`
   - Pre-commit: `pnpm run typecheck`
 
-- [ ] 10. 通用组件 (DataCard, ProfitText, FundSelector)
+- [x] 10. 通用组件 (DataCard, ProfitText, FundSelector)
 
   **What to do**:
   - 创建 src/components/common/DataCard.tsx:
@@ -973,7 +973,7 @@ Max Concurrent: 7 (Waves 1 & 2)
   - Files: `frontend/src/components/common/DataCard.tsx`, `frontend/src/components/common/ProfitText.tsx`, `frontend/src/components/common/FundSelector.tsx`, `frontend/src/components/common/index.ts`
   - Pre-commit: `pnpm run lint && pnpm run typecheck`
 
-- [ ] 11. 业务组件 (AccountCard, HoldingTable)
+- [x] 11. 业务组件 (AccountCard, HoldingTable)
 
   **What to do**:
   - 创建 src/components/business/AccountCard.tsx:
@@ -1054,7 +1054,7 @@ Max Concurrent: 7 (Waves 1 & 2)
   - Files: `frontend/src/components/business/AccountCard.tsx`, `frontend/src/components/business/HoldingTable.tsx`, `frontend/src/components/business/index.ts`
   - Pre-commit: `pnpm run lint && pnpm run typecheck`
 
-- [ ] 12. 业务组件 (TransactionForm, NetValueRefresh)
+- [x] 12. 业务组件 (TransactionForm, NetValueRefresh)
 
   **What to do**:
   - 创建 src/components/business/TransactionForm.tsx:
@@ -1143,7 +1143,7 @@ Max Concurrent: 7 (Waves 1 & 2)
   - Files: `frontend/src/components/business/TransactionForm.tsx`, `frontend/src/components/business/NetValueRefresh.tsx`, `frontend/src/components/business/index.ts`
   - Pre-commit: `pnpm run lint && pnpm run typecheck`
 
-- [ ] 13. ECharts 基础组件封装 (BaseChart, PieChart, LineChart)
+- [x] 13. ECharts 基础组件封装 (BaseChart, PieChart, LineChart)
 
   **What to do**:
   - 安装 ECharts: `pnpm add echarts`
