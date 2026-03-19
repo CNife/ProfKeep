@@ -1,7 +1,5 @@
 # Sisyphus agent state (keep plans only)
-.sisyphus/boulder.json
-.sisyphus/evidence/
-.sisyphus/notepads/
+.sisyphus/evidence
 
 # Node.js
 node_modules/
