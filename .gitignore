@@ -1,0 +1,40 @@
+# Sisyphus agent state (keep plans only)
+.sisyphus/boulder.json
+.sisyphus/evidence/
+.sisyphus/notepads/
+
+# Node.js
+node_modules/
+dist/
+dist-ssr/
+*.local
+.pnp
+.pnp.js
+
+# Testing
+coverage/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Environment
+.env
+.env.local
+.env.*.local
+
+# Build outputs
+*.tsbuildinfo
