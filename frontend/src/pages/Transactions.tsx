@@ -232,7 +232,7 @@ export function Transactions() {
 
   return (
     <Flex vertical gap={spacing.lg}>
-      <Flex justify="space-between" align="center">
+      <Flex justify="space-between" align="center" wrap="wrap" gap={spacing.sm}>
         <Title level={3} style={{ margin: 0, color: colors.neutral.title }}>
           交易记录
         </Title>

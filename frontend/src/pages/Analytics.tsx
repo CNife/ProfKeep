@@ -161,7 +161,7 @@ export function Analytics() {
       </Row>
 
       <Row gutter={[spacing.lg, spacing.lg]}>
-        <Col xs={24} lg={16}>
+        <Col xs={24} sm={24} lg={16}>
           <DataCard
             title="收益曲线"
             extra={
@@ -192,7 +192,7 @@ export function Analytics() {
           </DataCard>
         </Col>
 
-        <Col xs={24} lg={8}>
+        <Col xs={24} sm={12} lg={8}>
           <DataCard title="资产配置">
             <PieChart
               data={assetAllocation}

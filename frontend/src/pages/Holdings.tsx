@@ -111,7 +111,7 @@ export function Holdings() {
 
   return (
     <Flex vertical gap={spacing.lg}>
-      <Flex justify="space-between" align="center">
+      <Flex justify="space-between" align="center" wrap="wrap" gap={spacing.sm}>
         <Title level={3} style={{ margin: 0, color: colors.neutral.title }}>
           持仓详情
         </Title>
@@ -119,7 +119,7 @@ export function Holdings() {
           value={accountId ?? ''}
           onChange={handleAccountChange}
           options={accountOptions}
-          style={{ width: 200 }}
+          style={{ minWidth: 200 }}
           placeholder="选择账户"
         />
       </Flex>
@@ -137,7 +137,7 @@ export function Holdings() {
       ) : (
         <>
           <Row gutter={[spacing.lg, spacing.lg]}>
-            <Col xs={24} lg={16}>
+            <Col xs={24} sm={24} lg={16}>
               <DataCard title="持仓列表">
                 <HoldingTable
                   data={holdings}
@@ -149,7 +149,7 @@ export function Holdings() {
               </DataCard>
             </Col>
 
-            <Col xs={24} lg={8}>
+            <Col xs={24} sm={12} lg={8}>
               <DataCard title="基金详情">
                 {selectedFundDetail ? (
                   <Flex vertical gap={spacing.md}>

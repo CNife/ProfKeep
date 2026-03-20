@@ -126,7 +126,7 @@ export function Dashboard() {
       </Row>
 
       <Row gutter={[spacing.lg, spacing.lg]}>
-        <Col xs={24} lg={8}>
+        <Col xs={24} sm={12} lg={8}>
           <DataCard title="资产配置">
             <PieChart
               data={assetAllocation}
@@ -140,7 +140,7 @@ export function Dashboard() {
           </DataCard>
         </Col>
 
-        <Col xs={24} lg={16}>
+        <Col xs={24} sm={12} lg={16}>
           <DataCard
             title="收益趋势"
             extra={
@@ -173,7 +173,7 @@ export function Dashboard() {
       </Row>
 
       <Row gutter={[spacing.lg, spacing.lg]}>
-        <Col xs={24} lg={18}>
+        <Col xs={24} sm={24} lg={18}>
           <DataCard title="持仓列表">
             <HoldingTable
               data={holdings}
@@ -184,7 +184,7 @@ export function Dashboard() {
             />
           </DataCard>
         </Col>
-        <Col xs={24} lg={6}>
+        <Col xs={24} sm={12} lg={6}>
           <DataCard title="净值刷新" disableHover>
             <NetValueRefresh
               value={1.2345}
