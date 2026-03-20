@@ -2,7 +2,7 @@ import { RouterProvider } from 'react-router-dom'
 import { router } from './router'
 import { Header, SideNav } from './components/Layout'
 import { Layout } from 'antd'
-import { colors } from './config/theme'
+import { colors, spacing } from './config/theme'
 
 const { Content } = Layout
 
@@ -14,7 +14,7 @@ function App() {
         <SideNav />
         <Content
           style={{
-            padding: colors.spacing.lg,
+            padding: spacing.lg,
             backgroundColor: colors.background.page,
             overflow: 'auto',
           }}
