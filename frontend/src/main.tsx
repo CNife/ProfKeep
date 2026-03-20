@@ -14,24 +14,37 @@ import { queryClient } from './hooks/useQueryClient'
  */
 async function enableMockWorker() {
   if (import.meta.env.DEV) {
-    const { worker } = await import('./mocks/browser')
-    await worker.start({
-      onUnhandledRequest: 'bypass',
-      quiet: false,
-    })
-    console.log('[MSW] Mock Service Worker enabled for development')
+    try {
+      console.log('[MSW] Starting to import worker...')
+      const { worker } = await import('./mocks/browser')
+      console.log('[MSW] Worker imported, starting...')
+      await worker.start({
+        onUnhandledRequest: 'bypass',
+        quiet: false,
+      })
+      console.log('[MSW] Mock Service Worker enabled for development')
+    } catch (error) {
+      console.error('[MSW] Failed to start worker:', error)
+    }
   }
 }
 
 // 启动应用并初始化 MSW
-enableMockWorker().then(() => {
-  createRoot(document.getElementById('root')!).render(
-    <StrictMode>
-      <QueryClientProvider client={queryClient}>
-        <ConfigProvider locale={zhCN} theme={antdTheme}>
-          <App />
-        </ConfigProvider>
-      </QueryClientProvider>
-    </StrictMode>,
-  )
-})
+console.log('[App] Starting application...')
+enableMockWorker()
+  .then(() => {
+    console.log('[App] MSW enabled, rendering React...')
+    createRoot(document.getElementById('root')!).render(
+      <StrictMode>
+        <QueryClientProvider client={queryClient}>
+          <ConfigProvider locale={zhCN} theme={antdTheme}>
+            <App />
+          </ConfigProvider>
+        </QueryClientProvider>
+      </StrictMode>,
+    )
+    console.log('[App] React rendered')
+  })
+  .catch((error) => {
+    console.error('[App] Error during initialization:', error)
+  })
