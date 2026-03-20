@@ -215,6 +215,89 @@ export const handlers = [
     })
   }),
 
+  // POST /api/accounts - 创建账户
+  http.post('/api/accounts', async ({ request }) => {
+    const body = await request.json()
+    const { name, description } = body as { name?: string; description?: string }
+
+    if (!name || name.trim() === '') {
+      return HttpResponse.json(
+        { success: false, error: '账户名称不能为空' },
+        { status: 400 },
+      )
+    }
+
+    const newAccount = createAccount({
+      id: Math.max(...mockAccounts.map((a) => a.id), 0) + 1,
+      name: name.trim(),
+      description: description?.trim() || '',
+      created_at: new Date().toISOString(),
+      updated_at: new Date().toISOString(),
+    })
+
+    mockAccounts.push(newAccount)
+
+    return HttpResponse.json(
+      {
+        success: true,
+        data: newAccount,
+      },
+      { status: 201 },
+    )
+  }),
+
+  // PUT /api/accounts/:id - 更新账户
+  http.put('/api/accounts/:id', async ({ params, request }) => {
+    const id = Number(params.id)
+    const account = mockAccounts.find((a) => a.id === id)
+
+    if (!account) {
+      return HttpResponse.json(
+        { success: false, error: '账户不存在' },
+        { status: 404 },
+      )
+    }
+
+    const body = await request.json()
+    const { name, description } = body as { name?: string; description?: string }
+
+    if (name !== undefined && name.trim() === '') {
+      return HttpResponse.json(
+        { success: false, error: '账户名称不能为空' },
+        { status: 400 },
+      )
+    }
+
+    account.name = name?.trim() ?? account.name
+    account.description = description?.trim() ?? account.description
+    account.updated_at = new Date().toISOString()
+
+    return HttpResponse.json({
+      success: true,
+      data: account,
+    })
+  }),
+
+  // DELETE /api/accounts/:id - 删除账户
+  http.delete('/api/accounts/:id', ({ params }) => {
+    const id = Number(params.id)
+    const index = mockAccounts.findIndex((a) => a.id === id)
+
+    if (index === -1) {
+      return HttpResponse.json(
+        { success: false, error: '账户不存在' },
+        { status: 404 },
+      )
+    }
+
+    mockAccounts.splice(index, 1)
+
+    return HttpResponse.json({
+      success: true,
+      message: '账户已删除',
+    })
+  }),
+
   // GET /api/funds - 获取基金列表
   http.get('/api/funds', () => {
     return HttpResponse.json({
@@ -314,6 +397,131 @@ export const handlers = [
     })
   }),
 
+  // POST /api/holdings - 添加持仓
+  http.post('/api/holdings', async ({ request }) => {
+    const body = await request.json()
+    const { account_id, fund_id, shares, cost_price } = body as {
+      account_id?: number
+      fund_id?: number
+      shares?: number
+      cost_price?: number
+    }
+
+    if (!account_id || !fund_id) {
+      return HttpResponse.json(
+        { success: false, error: '账户 ID 和基金 ID 为必填项' },
+        { status: 400 },
+      )
+    }
+
+    if (!shares || shares <= 0) {
+      return HttpResponse.json(
+        { success: false, error: '份额必须大于 0' },
+        { status: 400 },
+      )
+    }
+
+    if (!cost_price || cost_price <= 0) {
+      return HttpResponse.json(
+        { success: false, error: '成本价必须大于 0' },
+        { status: 400 },
+      )
+    }
+
+    const existingHolding = mockHoldings.find(
+      (h) => h.account_id === account_id && h.fund_id === fund_id,
+    )
+
+    if (existingHolding) {
+      return HttpResponse.json(
+        { success: false, error: '该账户已持有此基金' },
+        { status: 400 },
+      )
+    }
+
+    const newHolding = createHolding({
+      id: Math.max(...mockHoldings.map((h) => h.id), 0) + 1,
+      account_id,
+      fund_id,
+      shares,
+      cost_price,
+      created_at: new Date().toISOString(),
+      updated_at: new Date().toISOString(),
+    })
+
+    mockHoldings.push(newHolding)
+
+    return HttpResponse.json(
+      {
+        success: true,
+        data: newHolding,
+      },
+      { status: 201 },
+    )
+  }),
+
+  // PUT /api/holdings/:id - 更新持仓
+  http.put('/api/holdings/:id', async ({ params, request }) => {
+    const id = Number(params.id)
+    const holding = mockHoldings.find((h) => h.id === id)
+
+    if (!holding) {
+      return HttpResponse.json(
+        { success: false, error: '持仓不存在' },
+        { status: 404 },
+      )
+    }
+
+    const body = await request.json()
+    const { shares, cost_price } = body as {
+      shares?: number
+      cost_price?: number
+    }
+
+    if (shares !== undefined && shares <= 0) {
+      return HttpResponse.json(
+        { success: false, error: '份额必须大于 0' },
+        { status: 400 },
+      )
+    }
+
+    if (cost_price !== undefined && cost_price <= 0) {
+      return HttpResponse.json(
+        { success: false, error: '成本价必须大于 0' },
+        { status: 400 },
+      )
+    }
+
+    holding.shares = shares ?? holding.shares
+    holding.cost_price = cost_price ?? holding.cost_price
+    holding.updated_at = new Date().toISOString()
+
+    return HttpResponse.json({
+      success: true,
+      data: holding,
+    })
+  }),
+
+  // DELETE /api/holdings/:id - 删除持仓
+  http.delete('/api/holdings/:id', ({ params }) => {
+    const id = Number(params.id)
+    const index = mockHoldings.findIndex((h) => h.id === id)
+
+    if (index === -1) {
+      return HttpResponse.json(
+        { success: false, error: '持仓不存在' },
+        { status: 404 },
+      )
+    }
+
+    mockHoldings.splice(index, 1)
+
+    return HttpResponse.json({
+      success: true,
+      message: '持仓已删除',
+    })
+  }),
+
   // GET /api/transactions - 获取交易记录
   http.get('/api/transactions', ({ request }) => {
     const url = new URL(request.url)
@@ -361,6 +569,194 @@ export const handlers = [
     return HttpResponse.json({
       success: true,
       data: transaction,
+    })
+  }),
+
+  // POST /api/transactions - 添加交易记录
+  http.post('/api/transactions', async ({ request }) => {
+    const body = await request.json()
+    const {
+      account_id,
+      fund_id,
+      type,
+      date,
+      shares,
+      amount,
+      fee = 0,
+      net_value,
+      notes,
+    } = body as {
+      account_id?: number
+      fund_id?: number
+      type?: Transaction['type']
+      date?: string
+      shares?: number
+      amount?: number
+      fee?: number
+      net_value?: number
+      notes?: string
+    }
+
+    if (!account_id || !fund_id) {
+      return HttpResponse.json(
+        { success: false, error: '账户 ID 和基金 ID 为必填项' },
+        { status: 400 },
+      )
+    }
+
+    if (!type || !['buy', 'sell', 'dividend'].includes(type)) {
+      return HttpResponse.json(
+        { success: false, error: '交易类型必须为 buy、sell 或 dividend' },
+        { status: 400 },
+      )
+    }
+
+    if (!date) {
+      return HttpResponse.json(
+        { success: false, error: '交易日期为必填项' },
+        { status: 400 },
+      )
+    }
+
+    if (type !== 'dividend' && (!shares || shares <= 0)) {
+      return HttpResponse.json(
+        { success: false, error: '份额必须大于 0' },
+        { status: 400 },
+      )
+    }
+
+    if (type !== 'dividend' && (!amount || amount <= 0)) {
+      return HttpResponse.json(
+        { success: false, error: '金额必须大于 0' },
+        { status: 400 },
+      )
+    }
+
+    if (fee < 0) {
+      return HttpResponse.json(
+        { success: false, error: '手续费不能为负数' },
+        { status: 400 },
+      )
+    }
+
+    const newTransaction = createTransaction({
+      id: Math.max(...mockTransactions.map((t) => t.id), 0) + 1,
+      account_id,
+      fund_id,
+      type,
+      date,
+      shares: type === 'dividend' ? undefined : shares,
+      amount: type === 'dividend' ? undefined : amount,
+      fee,
+      net_value: net_value ?? (amount && shares ? amount / shares : undefined),
+      notes: notes?.trim(),
+      created_at: new Date().toISOString(),
+    })
+
+    mockTransactions.push(newTransaction)
+
+    return HttpResponse.json(
+      {
+        success: true,
+        data: newTransaction,
+      },
+      { status: 201 },
+    )
+  }),
+
+  // PUT /api/transactions/:id - 更新交易记录
+  http.put('/api/transactions/:id', async ({ params, request }) => {
+    const id = Number(params.id)
+    const transaction = mockTransactions.find((t) => t.id === id)
+
+    if (!transaction) {
+      return HttpResponse.json(
+        { success: false, error: '交易记录不存在' },
+        { status: 404 },
+      )
+    }
+
+    const body = await request.json()
+    const {
+      type,
+      date,
+      shares,
+      amount,
+      fee,
+      net_value,
+      notes,
+    } = body as {
+      type?: Transaction['type']
+      date?: string
+      shares?: number
+      amount?: number
+      fee?: number
+      net_value?: number
+      notes?: string
+    }
+
+    if (type !== undefined && !['buy', 'sell', 'dividend'].includes(type)) {
+      return HttpResponse.json(
+        { success: false, error: '交易类型必须为 buy、sell 或 dividend' },
+        { status: 400 },
+      )
+    }
+
+    if (type !== 'dividend' && shares !== undefined && shares <= 0) {
+      return HttpResponse.json(
+        { success: false, error: '份额必须大于 0' },
+        { status: 400 },
+      )
+    }
+
+    if (type !== 'dividend' && amount !== undefined && amount <= 0) {
+      return HttpResponse.json(
+        { success: false, error: '金额必须大于 0' },
+        { status: 400 },
+      )
+    }
+
+    if (fee !== undefined && fee < 0) {
+      return HttpResponse.json(
+        { success: false, error: '手续费不能为负数' },
+        { status: 400 },
+      )
+    }
+
+    transaction.type = type ?? transaction.type
+    transaction.date = date ?? transaction.date
+    transaction.shares = type === 'dividend' ? undefined : (shares ?? transaction.shares)
+    transaction.amount = type === 'dividend' ? undefined : (amount ?? transaction.amount)
+    transaction.fee = fee ?? transaction.fee
+    transaction.net_value =
+      net_value ??
+      (amount && shares ? amount / shares : transaction.net_value)
+    transaction.notes = notes?.trim() ?? transaction.notes
+    transaction.created_at = new Date().toISOString()
+
+    return HttpResponse.json({
+      success: true,
+      data: transaction,
+    })
+  }),
+
+  // DELETE /api/transactions/:id - 删除交易记录
+  http.delete('/api/transactions/:id', ({ params }) => {
+    const id = Number(params.id)
+    const index = mockTransactions.findIndex((t) => t.id === id)
+
+    if (index === -1) {
+      return HttpResponse.json(
+        { success: false, error: '交易记录不存在' },
+        { status: 404 },
+      )
+    }
+
+    mockTransactions.splice(index, 1)
+
+    return HttpResponse.json({
+      success: true,
+      message: '交易记录已删除',
     })
   }),
 ]
