@@ -4,7 +4,7 @@
  * 支持账户的创建、查看、编辑和删除操作。
  */
 
-import { useState, useMemo } from 'react'
+import { useState, useMemo, useCallback } from 'react'
 import { useNavigate } from 'react-router-dom'
 import {
   Row,
@@ -70,48 +70,60 @@ export function Accounts() {
     setModalOpen(true)
   }
 
-  const handleEdit = (id: string) => {
-    const account = accounts.find((a) => a.id === id)
-    if (account) {
-      setEditingAccount(account)
-      form.setFieldsValue({
-        name: account.name,
-        description: account.description,
+  const handleEdit = useCallback(
+    (id: string) => {
+      const account = accounts.find((a) => a.id === id)
+      if (account) {
+        setEditingAccount(account)
+        form.setFieldsValue({
+          name: account.name,
+          description: account.description,
+        })
+        setModalOpen(true)
+      }
+    },
+    [accounts, form],
+  )
+
+  const handleDelete = useCallback(
+    (id: string) => {
+      const account = accounts.find((a) => a.id === id)
+      if (!account) return
+
+      if (account.fundCount > 0) {
+        message.warning('该账户有持仓基金，无法删除')
+        return
+      }
+
+      confirm({
+        title: '确认删除',
+        icon: <ExclamationCircleOutlined />,
+        content: `确定要删除账户「${account.name}」吗？此操作不可恢复。`,
+        okText: '删除',
+        okType: 'danger',
+        cancelText: '取消',
+        onOk: () => {
+          setAccounts((prev) => prev.filter((a) => a.id !== id))
+          message.success('账户已删除')
+        },
       })
-      setModalOpen(true)
-    }
-  }
+    },
+    [accounts],
+  )
 
-  const handleDelete = (id: string) => {
-    const account = accounts.find((a) => a.id === id)
-    if (!account) return
+  const handleViewHoldings = useCallback(
+    (id: string) => {
+      navigate(`/holdings?accountId=${id}`)
+    },
+    [navigate],
+  )
 
-    if (account.fundCount > 0) {
-      message.warning('该账户有持仓基金，无法删除')
-      return
-    }
-
-    confirm({
-      title: '确认删除',
-      icon: <ExclamationCircleOutlined />,
-      content: `确定要删除账户「${account.name}」吗？此操作不可恢复。`,
-      okText: '删除',
-      okType: 'danger',
-      cancelText: '取消',
-      onOk: () => {
-        setAccounts((prev) => prev.filter((a) => a.id !== id))
-        message.success('账户已删除')
-      },
-    })
-  }
-
-  const handleViewHoldings = (id: string) => {
-    navigate(`/holdings?accountId=${id}`)
-  }
-
-  const handleRecordTransaction = (id: string) => {
-    navigate(`/transactions?accountId=${id}`)
-  }
+  const handleRecordTransaction = useCallback(
+    (id: string) => {
+      navigate(`/transactions?accountId=${id}`)
+    },
+    [navigate],
+  )
 
   const handleModalOk = async () => {
     try {
@@ -177,7 +189,7 @@ export function Accounts() {
           />
         </Col>
       )),
-    [accounts],
+    [accounts, handleDelete, handleEdit, handleRecordTransaction, handleViewHoldings],
   )
 
   if (loading) {

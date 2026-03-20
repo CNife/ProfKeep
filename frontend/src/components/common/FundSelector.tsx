@@ -93,7 +93,7 @@ export function FundSelector({
         setError(result.error ?? '未找到该基金')
         setFund(null)
       }
-    } catch (err) {
+    } catch {
       setError('获取基金信息失败，请稍后重试')
       setFund(null)
     } finally {

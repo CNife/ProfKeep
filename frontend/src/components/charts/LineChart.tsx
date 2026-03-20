@@ -169,7 +169,7 @@ const LineChart = memo<LineChartProps>(
               formatter: (params) => {
                 if (!Array.isArray(params)) return ''
                 const [first] = params
-                // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+                 
                 const axisValue = (first as { axisValue?: string }).axisValue ?? ''
                 let result = `<div style="font-weight: bold; margin-bottom: 4px;">${axisValue}</div>`
                 params.forEach((param) => {

@@ -61,7 +61,7 @@ export function NetValueRefresh({
     try {
       await onRefresh()
       message.success('净值已更新')
-    } catch (error) {
+    } catch {
       message.error('更新失败，请重试')
     } finally {
       setLoading(false)

@@ -109,7 +109,7 @@ export function TransactionForm({
       await onSubmit(values)
       message.success('交易记录已保存')
       form.resetFields()
-    } catch (error) {
+    } catch {
       message.error('保存失败，请重试')
     } finally {
       setLoading(false)
