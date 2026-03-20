@@ -1228,12 +1228,50 @@ Max Concurrent: 7 (Waves 1 & 2)
   - Files: `frontend/src/components/charts/BaseChart.tsx`, `frontend/src/components/charts/PieChart.tsx`, `frontend/src/components/charts/LineChart.tsx`, `frontend/src/components/charts/index.ts`
   - Pre-commit: `pnpm run lint && pnpm run typecheck`
 
-- [ ] 14-31. Wave 3-5 核心页面、状态管理、测试任务 (详见完整计划)
+- [x] 14. Dashboard 页面 — 资产总览 + 持仓列表 + 图表
+
+  **What to do**:
+  - 创建 Dashboard 页面，包含资产总览卡片组、资产配置饼图、收益趋势折线图、持仓列表
+  - 使用 DataCard、ProfitText、HoldingTable、PieChart、LineChart、NetValueRefresh 组件
+  - 创建 Mock 数据工厂函数生成测试数据
+  - 实现响应式布局，支持时间范围切换
+
+  **Expected Outcome**: 
+  - ✅ 文件创建：frontend/src/pages/Dashboard.tsx (完整实现)
+  - ✅ Mock 数据：frontend/src/mocks/data/dashboard.ts
+  - ✅ 功能：资产总览、饼图、折线图、持仓列表、净值刷新
+  - ✅ 验证：pnpm run typecheck 通过
 
   **Wave 3 (Tasks 14-19)**: 6 个核心页面开发
-  - Task 14: Dashboard 页面 — 资产总览 + 持仓列表 + 图表
-  - Task 15: Accounts 页面 — 账户 CRUD + 账户卡片列表
-  - Task 16: Holdings 页面 — 持仓详情 + 净值走势图表
+  - Task 14: Dashboard 页面 — 资产总览 + 持仓列表 + 图表 [COMPLETED]
+  - Task 15: Accounts 页面 — 账户 CRUD + 账户卡片列表 [COMPLETED]
+  - Task 16: Holdings 页面 — 持仓详情 + 净值走势图表 [COMPLETED]
+
+- [x] 15. Accounts 页面 — 账户 CRUD + 账户卡片列表
+
+  **What to do**:
+  - 创建 Accounts 页面，展示账户卡片列表
+  - 实现新建账户、编辑账户、删除账户功能
+  - 删除前检查是否有持仓
+  - 查看持仓和记录交易的跳转
+
+  **Expected Outcome**:
+  - ✅ 文件创建：frontend/src/pages/Accounts.tsx
+  - ✅ 功能：账户列表、CRUD 操作、空状态
+  - ✅ 验证：pnpm run typecheck 通过
+
+- [x] 16. Holdings 页面 — 持仓详情 + 净值走势图表
+
+  **What to do**:
+  - 创建 Holdings 页面，展示持仓列表和净值走势
+  - 支持按账户筛选
+  - 显示基金详情
+  - 买入/卖出跳转
+
+  **Expected Outcome**:
+  - ✅ 文件创建：frontend/src/pages/Holdings.tsx
+  - ✅ 功能：持仓列表、账户筛选、净值图表、基金详情
+  - ✅ 验证：pnpm run typecheck 通过
   - Task 17: Transactions 页面 — 交易记录 + 筛选 + 分页 + 表单
   - Task 18: Analytics 页面 — 收益曲线 + 资产配置 + 收益排名
   - Task 19: Settings 页面 — 数据管理 + Tushare 配置 + 显示设置
