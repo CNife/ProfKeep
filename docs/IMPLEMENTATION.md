@@ -253,7 +253,7 @@ class TushareService:
             return self._parse_nav(df)
         except Exception as e:
             raise APIError(f"获取净值失败: {e}")
-    
+
     def get_fund_info(self, fund_code: str) -> FundInfo:
         """获取基金基本信息"""
         try:
@@ -261,7 +261,7 @@ class TushareService:
             return self._parse_fund_info(df)
         except Exception as e:
             raise APIError(f"获取基金信息失败: {e}")
-    
+
     def get_index_daily(self, index_code: str) -> list[IndexData]:
         """获取指数日线（沪深300: 000300.SH）"""
         try:

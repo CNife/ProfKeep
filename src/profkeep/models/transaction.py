@@ -51,7 +51,6 @@ class Transaction(SQLModel, table=True):
                 raise ValueError("现金分红必须填写金额")
             if self.shares is not None:
                 raise ValueError("现金分红不能填写份额")
-        elif self.type == TransactionType.dividend_reinvest:
-            if self.shares is None:
-                raise ValueError("红利再投资必须填写份额")
+        elif self.type == TransactionType.dividend_reinvest and self.shares is None:
+            raise ValueError("红利再投资必须填写份额")
         return self

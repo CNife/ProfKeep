@@ -2,6 +2,7 @@ from datetime import date
 from decimal import Decimal
 
 import pytest
+from sqlalchemy.exc import IntegrityError
 
 from profkeep.models import (
     Account,
@@ -46,7 +47,7 @@ class TestAccount:
 
         with Session(engine) as session:
             session.add(account2)
-            with pytest.raises(Exception):  # IntegrityError
+            with pytest.raises(IntegrityError):  # noqa: PT011
                 session.commit()
 
 
@@ -75,7 +76,7 @@ class TestFund:
 
         with Session(engine) as session:
             session.add(fund2)
-            with pytest.raises(Exception):
+            with pytest.raises(IntegrityError):  # noqa: PT011
                 session.commit()
 
 
