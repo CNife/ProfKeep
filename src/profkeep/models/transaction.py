@@ -1,7 +1,7 @@
 from datetime import date, datetime
 from decimal import Decimal
 from enum import StrEnum
-from typing import TYPE_CHECKING, Optional, Self
+from typing import TYPE_CHECKING, Self
 
 from pydantic import model_validator
 from sqlmodel import Field, Relationship, SQLModel
@@ -21,22 +21,22 @@ class TransactionType(StrEnum):
 
 
 class Transaction(SQLModel, table=True):
-    id: Optional[int] = Field(default=None, primary_key=True)
+    id: int | None = Field(default=None, primary_key=True)
     type: TransactionType
     date: date
-    shares: Optional[Decimal] = Field(default=None, max_digits=15, decimal_places=4)
-    amount: Optional[Decimal] = Field(default=None, max_digits=15, decimal_places=2)
+    shares: Decimal | None = Field(default=None, max_digits=15, decimal_places=4)
+    amount: Decimal | None = Field(default=None, max_digits=15, decimal_places=2)
     fee: Decimal = Field(default=Decimal("0"), max_digits=10, decimal_places=2, ge=0)
-    net_value: Optional[Decimal] = Field(default=None, max_digits=10, decimal_places=4)
+    net_value: Decimal | None = Field(default=None, max_digits=10, decimal_places=4)
     confirmed: bool = Field(default=True)
-    notes: Optional[str] = Field(default=None)
+    notes: str | None = Field(default=None)
     created_at: datetime = Field(default_factory=utcnow)
 
     account_id: int = Field(foreign_key="account.id", ondelete="CASCADE")
-    account: Optional["Account"] = Relationship(back_populates="transactions")
+    account: Account | None = Relationship(back_populates="transactions")
 
     fund_id: int = Field(foreign_key="fund.id")
-    fund: Optional["Fund"] = Relationship(back_populates="transactions")
+    fund: Fund | None = Relationship(back_populates="transactions")
 
     @model_validator(mode="after")
     def validate_type_fields(self) -> Self:

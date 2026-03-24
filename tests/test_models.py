@@ -33,8 +33,9 @@ class TestAccount:
         assert account.description == "测试描述"
 
     def test_unique_name(self):
-        from profkeep.models.database import engine
         from sqlmodel import Session
+
+        from profkeep.models.database import engine
 
         account1 = Account(name="账户1")
         account2 = Account(name="账户1")
@@ -61,8 +62,9 @@ class TestFund:
             Fund(code="abc123", name="测试基金")
 
     def test_unique_code(self):
-        from profkeep.models.database import engine
         from sqlmodel import Session
+
+        from profkeep.models.database import engine
 
         fund1 = Fund(code="000001", name="基金1")
         fund2 = Fund(code="000001", name="基金2")
@@ -79,8 +81,9 @@ class TestFund:
 
 class TestHolding:
     def test_create_holding(self):
-        from profkeep.models.database import engine
         from sqlmodel import Session
+
+        from profkeep.models.database import engine
 
         with Session(engine) as session:
             account = Account(name="账户1")
@@ -206,8 +209,9 @@ class TestTransaction:
 
 class TestFundNavHistory:
     def test_create_nav_history(self):
-        from profkeep.models.database import engine
         from sqlmodel import Session
+
+        from profkeep.models.database import engine
 
         with Session(engine) as session:
             fund = Fund(code="000001", name="测试基金")
@@ -227,8 +231,9 @@ class TestFundNavHistory:
 
 class TestIndexNavHistory:
     def test_create_index_nav(self):
-        from profkeep.models.database import engine
         from sqlmodel import Session
+
+        from profkeep.models.database import engine
 
         with Session(engine) as session:
             index_nav = IndexNavHistory(
