@@ -10,6 +10,7 @@ requires-python = ">=3.14"
 dependencies = [
     "pandas>=3.0.1",
     "sqlalchemy>=2.0.48",
+    "sqlmodel>=0.0.37",
     "textual>=8.1.1",
     "tushare>=1.4.25",
 ]
