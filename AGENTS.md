@@ -115,12 +115,14 @@ profkeep/
     └── #4 (Tushare) ──→ #6 (基金信息) ──┘
 ```
 
-### 开始开发
+### GitHub 工作流
 
 1. 选择无阻塞或阻塞已完成的 issue
-2. 创建分支: `git checkout -b issue-<number>`
-3. 开发完成后提交 PR
-4. 合并后更新 issue 状态
+2. 开发完成后：
+   - 提交代码并推送
+   - 更新 AGENTS.md 中的 Issue 状态表
+   - 关闭 issue 并添加完成评论（列出完成内容、验收结果、提交 SHA）
+3. 分支命名：`issue-<number>` 或功能分支名
 
 ---
 
