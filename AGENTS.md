@@ -9,8 +9,9 @@
 ## 关键开发规范
 
 ### 代码规范
-- **Python**: 使用 ruff 格式化，行长度 100 字符，类型注解，Google 风格文档字符串
-- **Git**: 简洁提交信息，禁止添加 `feat:`/`fix:`/`chore:` 等前缀
+- **Python 版本**: 3.14
+- **包名**: `profkeep`
+- **文档字符串**: 代码应自解释，删除不必要的 docstring；仅保留真正必要的注释（复杂算法、安全相关等）
 
 ### 核心约束
 1. **数据安全**: SQLite 本地存储，用户完全控制
@@ -63,8 +64,8 @@
 ## 项目结构
 
 ```
-fund-keeper/
-├── src/fund_keeper/
+profkeep/
+├── src/profkeep/
 │   ├── app.py                 # Textual App 入口
 │   ├── screens/               # 屏幕/页面
 │   ├── widgets/               # 自定义组件

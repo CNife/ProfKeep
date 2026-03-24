@@ -425,7 +425,7 @@ def rate_limit(seconds: float = 0.3):
 ```
 fund-keeper/
 ├── src/
-│   └── fund_keeper/
+│   └── profkeep/
 │       ├── __init__.py
 │       ├── app.py                 # Textual App 入口
 │       ├── screens/
@@ -488,7 +488,7 @@ dependencies = [
 ]
 
 [project.scripts]
-fundkeeper = "fund_keeper.app:main"
+fundkeeper = "profkeep.app:main"
 
 [build-system]
 requires = ["hatchling"]

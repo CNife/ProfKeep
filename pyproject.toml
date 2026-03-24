@@ -1,0 +1,28 @@
+[project]
+name = "profkeep"
+version = "0.1.0"
+description = "基金账本 TUI 应用"
+readme = "README.md"
+authors = [
+    { name = "潭渊", email = "CNife@vip.qq.com" }
+]
+requires-python = ">=3.14"
+dependencies = [
+    "pandas>=3.0.1",
+    "sqlalchemy>=2.0.48",
+    "textual>=8.1.1",
+    "tushare>=1.4.25",
+]
+
+[project.scripts]
+fundkeeper = "profkeep.app:main"
+
+[build-system]
+requires = ["uv_build>=0.11.0,<0.12.0"]
+build-backend = "uv_build"
+
+[tool.ruff]
+line-length = 100
+
+[tool.ruff.format]
+quote-style = "double"
