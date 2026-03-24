@@ -1,13 +1,20 @@
 # 基金账本 TUI
 
-基于 Textual 的基金管理终端应用，帮助个人投资者管理基金账户、追踪持仓盈亏、自动获取净值数据。
+基于 Textual 的基金管理终端应用，帮助个人投资者管理基金账户、追踪持仓盈亏、手动刷新净值数据。
+
+## 项目状态
+
+🚧 **开发中** - PRD 已完成，正在实施
+
+- [PRD 文档](https://github.com/CNife/ProfKeep/issues/1)
+- [实施方案](docs/IMPLEMENTATION.md)
 
 ## 功能特性
 
 - **多账户管理** - 支持创建和管理多个投资账户
 - **基金持仓管理** - 添加基金持仓，实时查看持仓市值和收益
 - **交易记录管理** - 记录买入、卖出、分红等交易操作
-- **净值自动获取** - 通过 Tushare API 自动获取基金净值数据
+- **净值手动刷新** - 通过 Tushare API 获取基金净值数据
 - **持仓盈亏计算** - 自动计算持仓收益、收益率
 - **收益曲线图** - Canvas 实现的收益趋势图表
 - **数据导入导出** - 支持 CSV 格式
@@ -25,8 +32,8 @@
 uv tool install fund-keeper
 
 # 或从源码安装
-git clone https://github.com/your-repo/fund-keeper.git
-cd fund-keeper
+git clone https://github.com/CNife/ProfKeep.git
+cd ProfKeep
 uv sync
 uv pip install -e .
 ```
@@ -64,6 +71,7 @@ fundkeeper
 | `?` | 帮助 |
 | `q` | 退出 |
 | `j/k` | 上下移动 |
+| `Tab` | 切换时间范围（图表页面） |
 | `Enter` | 确认 |
 | `Esc` | 取消 |
 

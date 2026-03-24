@@ -1,18 +1,20 @@
 # AI Agent 工作指导 - 文档管理
 
-本目录存放项目文档资料，包括需求文档、设计文档等。
+本目录存放项目文档资料，包括设计文档等。
 
 ## 文档结构
 
 ```
 docs/
-├── PRD.md              # 产品需求文档
-├── UI_DESIGN.md        # UI原型设计文档
-├── API.md              # API接口文档 (待创建)
-├── DATABASE.md         # 数据库设计文档 (待创建)
-├── DEPLOYMENT.md       # 部署指南 (待创建)
-└── images/             # 文档图片资源 (待创建)
+├── AGENTS.md          # 文档目录说明
+├── IMPLEMENTATION.md  # 实施方案
+├── DATABASE.md        # 数据库设计文档 (待创建)
+└── DEPLOYMENT.md      # 部署指南 (待创建)
 ```
+
+## 外部文档
+
+- **产品需求文档 (PRD)**: GitHub Issue #1 (https://github.com/CNife/ProfKeep/issues/1)
 
 ## 文档维护要点
 
