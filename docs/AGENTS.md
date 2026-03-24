@@ -8,6 +8,7 @@
 docs/
 ├── AGENTS.md          # 文档目录说明
 ├── IMPLEMENTATION.md  # 实施方案
+├── WORKFLOW.md        # 开发工作流
 ├── DATABASE.md        # 数据库设计文档 (待创建)
 └── DEPLOYMENT.md      # 部署指南 (待创建)
 ```
