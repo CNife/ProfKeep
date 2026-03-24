@@ -218,7 +218,7 @@ CREATE TABLE index_nav_history (
 ### 5.2 数据库文件位置
 
 ```
-~/.fundkeeper/data.db
+~/.profkeep/data.db
 ```
 
 ### 5.3 缓存策略
@@ -423,7 +423,7 @@ def rate_limit(seconds: float = 0.3):
 ## 10. 项目结构
 
 ```
-fund-keeper/
+profkeep/
 ├── src/
 │   └── profkeep/
 │       ├── __init__.py
@@ -476,7 +476,7 @@ fund-keeper/
 
 ```toml
 [project]
-name = "fund-keeper"
+name = "profkeep"
 version = "0.1.0"
 description = "基金账本 TUI 应用"
 requires-python = ">=3.11"
@@ -488,7 +488,7 @@ dependencies = [
 ]
 
 [project.scripts]
-fundkeeper = "profkeep.app:main"
+profkeep = "profkeep.app:main"
 
 [build-system]
 requires = ["hatchling"]

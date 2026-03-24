@@ -15,7 +15,13 @@ dependencies = [
 ]
 
 [project.scripts]
-fundkeeper = "profkeep.app:main"
+profkeep = "profkeep.app:main"
+
+[dependency-groups]
+dev = [
+    "pytest>=8.0.0",
+    "mypy>=1.0.0",
+]
 
 [build-system]
 requires = ["uv_build>=0.11.0,<0.12.0"]

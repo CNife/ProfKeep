@@ -29,7 +29,7 @@
 
 ```bash
 # 使用 uv 安装
-uv tool install fund-keeper
+uv tool install profkeep
 
 # 或从源码安装
 git clone https://github.com/CNife/ProfKeep.git
@@ -51,7 +51,7 @@ echo "your_token_here" > ~/.tushare/token
 ## 使用
 
 ```bash
-fundkeeper
+profkeep
 ```
 
 ## 快捷键
@@ -80,7 +80,7 @@ fundkeeper
 所有数据存储在本地：
 
 ```
-~/.fundkeeper/
+~/.profkeep/
 ├── data.db      # SQLite 数据库
 ```
 
