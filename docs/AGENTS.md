@@ -8,14 +8,17 @@
 docs/
 ├── AGENTS.md          # 文档目录说明
 ├── IMPLEMENTATION.md  # 实施方案
-├── WORKFLOW.md        # 开发工作流
+├── WORKFLOW.md        # 开发工作流（依赖图 + OMO 流程）
+├── prd.md             # 产品需求文档
 ├── DATABASE.md        # 数据库设计文档 (待创建)
 └── DEPLOYMENT.md      # 部署指南 (待创建)
 ```
 
-## 外部文档
+## 核心文档
 
-- **产品需求文档 (PRD)**: GitHub Issue #1 (https://github.com/CNife/ProfKeep/issues/1)
+- **产品需求**: `docs/prd.md`
+- **实施方案**: `docs/IMPLEMENTATION.md`
+- **工作流程**: `docs/WORKFLOW.md`
 
 ## 文档维护要点
 
