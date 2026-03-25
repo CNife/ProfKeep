@@ -37,5 +37,11 @@ target-version = "py314"
 select = ["F", "E", "W", "I", "UP", "B", "C4", "SIM"]
 ignore = ["E501"]
 
+[tool.ruff.lint.per-file-ignores]
+# SQLModel + Python 3.14 兼容性要求：
+# - 必须使用 Optional[X] 而非 X | None
+# - Relationship 类型注解必须使用字符串形式 "X"
+"src/profkeep/models/*.py" = ["UP045", "UP037"]
+
 [tool.ruff.lint.isort]
 known-first-party = ["profkeep"]

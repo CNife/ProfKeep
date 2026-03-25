@@ -21,3 +21,11 @@ repos:
       - id: ruff-format
       - id: ruff
         name: ruff-check
+  - repo: local
+    hooks:
+      - id: pytest
+        name: pytest
+        entry: uv run pytest -x
+        language: system
+        pass_filenames: false
+        always_run: true

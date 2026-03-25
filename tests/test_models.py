@@ -2,6 +2,7 @@ from datetime import date
 from decimal import Decimal
 
 import pytest
+from pydantic import ValidationError
 from sqlalchemy.exc import IntegrityError
 
 from profkeep.models import (
@@ -59,8 +60,8 @@ class TestFund:
         assert fund.type == "股票型"
 
     def test_code_regex_validation(self):
-        with pytest.raises(ValueError):
-            Fund(code="abc123", name="测试基金")
+        with pytest.raises(ValidationError):
+            Fund.model_validate({"code": "abc123", "name": "测试基金"})
 
     def test_unique_code(self):
         from sqlmodel import Session
@@ -117,19 +118,27 @@ class TestTransaction:
         assert tx.confirmed is True
 
     def test_buy_missing_shares(self):
-        with pytest.raises(ValueError, match="买入交易必须填写份额和金额"):
-            Transaction(
-                type=TransactionType.buy,
-                date=date(2024, 1, 15),
-                amount=Decimal("1500.00"),
+        with pytest.raises(ValidationError, match="买入交易必须填写份额和金额"):
+            Transaction.model_validate(
+                {
+                    "type": TransactionType.buy,
+                    "date": date(2024, 1, 15),
+                    "amount": Decimal("1500.00"),
+                    "account_id": 1,
+                    "fund_id": 1,
+                }
             )
 
     def test_buy_missing_amount(self):
-        with pytest.raises(ValueError, match="买入交易必须填写份额和金额"):
-            Transaction(
-                type=TransactionType.buy,
-                date=date(2024, 1, 15),
-                shares=Decimal("1000.0000"),
+        with pytest.raises(ValidationError, match="买入交易必须填写份额和金额"):
+            Transaction.model_validate(
+                {
+                    "type": TransactionType.buy,
+                    "date": date(2024, 1, 15),
+                    "shares": Decimal("1000.0000"),
+                    "account_id": 1,
+                    "fund_id": 1,
+                }
             )
 
     def test_sell_transaction(self):
@@ -142,11 +151,15 @@ class TestTransaction:
         assert tx.type == TransactionType.sell
 
     def test_sell_missing_shares(self):
-        with pytest.raises(ValueError, match="卖出交易必须填写份额和金额"):
-            Transaction(
-                type=TransactionType.sell,
-                date=date(2024, 1, 15),
-                amount=Decimal("800.00"),
+        with pytest.raises(ValidationError, match="卖出交易必须填写份额和金额"):
+            Transaction.model_validate(
+                {
+                    "type": TransactionType.sell,
+                    "date": date(2024, 1, 15),
+                    "amount": Decimal("800.00"),
+                    "account_id": 1,
+                    "fund_id": 1,
+                }
             )
 
     def test_dividend_cash(self):
@@ -158,19 +171,27 @@ class TestTransaction:
         assert tx.type == TransactionType.dividend_cash
 
     def test_dividend_cash_missing_amount(self):
-        with pytest.raises(ValueError, match="现金分红必须填写金额"):
-            Transaction(
-                type=TransactionType.dividend_cash,
-                date=date(2024, 1, 15),
+        with pytest.raises(ValidationError, match="现金分红必须填写金额"):
+            Transaction.model_validate(
+                {
+                    "type": TransactionType.dividend_cash,
+                    "date": date(2024, 1, 15),
+                    "account_id": 1,
+                    "fund_id": 1,
+                }
             )
 
     def test_dividend_cash_with_shares(self):
-        with pytest.raises(ValueError, match="现金分红不能填写份额"):
-            Transaction(
-                type=TransactionType.dividend_cash,
-                date=date(2024, 1, 15),
-                amount=Decimal("200.00"),
-                shares=Decimal("100.0000"),
+        with pytest.raises(ValidationError, match="现金分红不能填写份额"):
+            Transaction.model_validate(
+                {
+                    "type": TransactionType.dividend_cash,
+                    "date": date(2024, 1, 15),
+                    "amount": Decimal("200.00"),
+                    "shares": Decimal("100.0000"),
+                    "account_id": 1,
+                    "fund_id": 1,
+                }
             )
 
     def test_dividend_reinvest(self):
@@ -182,10 +203,14 @@ class TestTransaction:
         assert tx.type == TransactionType.dividend_reinvest
 
     def test_dividend_reinvest_missing_shares(self):
-        with pytest.raises(ValueError, match="红利再投资必须填写份额"):
-            Transaction(
-                type=TransactionType.dividend_reinvest,
-                date=date(2024, 1, 15),
+        with pytest.raises(ValidationError, match="红利再投资必须填写份额"):
+            Transaction.model_validate(
+                {
+                    "type": TransactionType.dividend_reinvest,
+                    "date": date(2024, 1, 15),
+                    "account_id": 1,
+                    "fund_id": 1,
+                }
             )
 
     def test_fee_default_zero(self):
@@ -198,13 +223,17 @@ class TestTransaction:
         assert tx.fee == Decimal("0")
 
     def test_fee_negative(self):
-        with pytest.raises(ValueError):
-            Transaction(
-                type=TransactionType.buy,
-                date=date(2024, 1, 15),
-                shares=Decimal("1000.0000"),
-                amount=Decimal("1500.00"),
-                fee=Decimal("-10.00"),
+        with pytest.raises(ValidationError):
+            Transaction.model_validate(
+                {
+                    "type": TransactionType.buy,
+                    "date": date(2024, 1, 15),
+                    "shares": Decimal("1000.0000"),
+                    "amount": Decimal("1500.00"),
+                    "fee": Decimal("-10.00"),
+                    "account_id": 1,
+                    "fund_id": 1,
+                }
             )
 
 
