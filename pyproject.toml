@@ -23,6 +23,7 @@ dev = [
     "pytest>=8.0.0",
     "mypy>=1.0.0",
     "pre-commit>=4.5.1",
+    "pytest-asyncio>=1.3.0",
 ]
 
 [build-system]
@@ -48,3 +49,7 @@ known-first-party = ["profkeep"]
 
 [tool.mypy]
 ignore_missing_imports = true
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+asyncio_default_fixture_loop_scope = "function"
