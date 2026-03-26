@@ -79,7 +79,7 @@ profkeep
 
 所有数据存储在本地：
 
-```
+```text
 ~/.profkeep/
 ├── data.db      # SQLite 数据库
 ```

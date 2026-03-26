@@ -4,7 +4,7 @@
 
 ## 状态存储 (Git 同步)
 
-```
+```text
 .sisyphus/
 ├── plans/              # 详细计划文件
 ├── notepads/           # 跨任务学习积累
@@ -17,19 +17,19 @@
 
 ### 1. 规划阶段 (Prometheus)
 
-```
+```text
 @plan "任务描述"    # 或 Tab 切换到 Prometheus
 ```
 
 ### 2. 执行阶段 (Atlas)
 
-```
+```text
 /start-work
 ```
 
 ### 3. 快速模式 (ultrawork)
 
-```
+```text
 ulw 或 ultrawork
 ```
 

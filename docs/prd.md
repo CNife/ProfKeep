@@ -15,6 +15,7 @@
 ## Solution
 
 开发一个基于 Textual 的终端用户界面（TUI）应用，实现：
+
 - 本地 SQLite 数据库存储，数据完全由用户控制
 - 单体应用架构，无需前后端分离
 - 通过 `uv tool install` 一键安装
@@ -156,22 +157,26 @@
 ### 测试范围
 
 **数据层（models/）**
+
 - 模型字段约束验证
 - 外键关联正确性
 - 唯一性约束验证
 
 **服务层（services/）**
+
 - AccountService: CRUD 操作
 - HoldingService: 持仓计算、汇总逻辑
 - TransactionService: 交易记录管理、确认状态影响
 - NavService: 缓存管理逻辑
 
 **业务逻辑层（utils/）**
+
 - CostCalculator: 平均成本计算，多笔买卖场景
 - ReturnCalculator: 收益率计算，正负收益场景
 - CsvHandler: CSV 格式验证、导入导出
 
 **不测试**
+
 - UI 层（screens/）：TUI 组件测试复杂度高，暂不覆盖
 - Tushare API：外部依赖，使用 Mock 测试服务层
 
@@ -194,7 +199,7 @@
 
 ### 项目结构
 
-```
+```text
 fund-keeper/
 ├── src/fund_keeper/
 │   ├── app.py                 # Textual App 入口
@@ -235,6 +240,7 @@ fund-keeper/
 ### 实施计划
 
 参见 `.sisyphus/plans/tui-implementation-plan.md`，分 4 周完成：
+
 - Week 1: 基础框架
 - Week 2: 核心功能
 - Week 3: 图表功能

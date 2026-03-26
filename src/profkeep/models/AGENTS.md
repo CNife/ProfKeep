@@ -1,12 +1,15 @@
 # 数据库模型规则
 
 ## ORM
+
 使用 SQLModel（Pydantic + SQLAlchemy 融合）。
 
 ## Python 3.14 + SQLModel 类型注解兼容性
 
 ### 问题
+
 SQLModel 0.0.37 与 Python 3.14 新式类型注解存在兼容性问题：
+
 - `X | None` 联合类型语法在 SQLAlchemy mapper 初始化时无法解析
 - `list[X]` 泛型语法在 relationship 中无法解析
 - `from __future__ import annotations` 会导致 relationship 解析失败
@@ -36,6 +39,7 @@ class Account(SQLModel, table=True):
 ```
 
 **禁止使用：**
+
 - `from __future__ import annotations`（会破坏 relationship 解析）
 - `X | None` 语法（使用 `Optional[X]` 替代）
 - `list[X]` 不加引号（使用 `list["X"]` 替代）
@@ -43,11 +47,13 @@ class Account(SQLModel, table=True):
 ### 验证行为
 
 SQLModel `table=True` 模型的验证特性：
+
 - `__init__()` 构造时**不会触发** Pydantic 验证
 - 必须使用 `Model.model_validate(data)` 才会触发完整验证
 - `field_validator` 和 `model_validator` 仅在 `model_validate()` 时执行
 
 ## SQLite 配置
+
 ```sql
 PRAGMA foreign_keys=ON;
 PRAGMA journal_mode=WAL;
@@ -56,6 +62,7 @@ PRAGMA temp_store=MEMORY;
 ```
 
 ## 模型约束
+
 - 基金代码：6位纯数字字符串
 - 交易类型验证：Pydantic `@model_validator` 实现
 - Holdings 表：缓存字段，卖出时更新，份额=0时删除记录
@@ -74,6 +81,7 @@ PRAGMA temp_store=MEMORY;
 ## 持仓成本计算
 
 使用平均成本法（不追踪每笔卖出对应哪笔买入）：
+
 ```python
 持仓成本 = 累计买入金额 - 累计卖出金额
 成本价 = 持仓成本 ÷ 当前持仓份额

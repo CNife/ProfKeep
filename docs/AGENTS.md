@@ -4,7 +4,7 @@
 
 ## 文档结构
 
-```
+```text
 docs/
 ├── AGENTS.md          # 文档目录说明
 ├── IMPLEMENTATION.md  # 实施方案

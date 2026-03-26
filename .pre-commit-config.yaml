@@ -21,6 +21,10 @@ repos:
       - id: ruff-format
       - id: ruff
         name: ruff-check
+  - repo: https://github.com/rvben/rumdl-pre-commit
+    rev: v0.1.60
+    hooks:
+      - id: rumdl-fmt
   - repo: local
     hooks:
       - id: pytest
