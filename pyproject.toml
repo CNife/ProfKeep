@@ -45,3 +45,6 @@ ignore = ["E501"]
 
 [tool.ruff.lint.isort]
 known-first-party = ["profkeep"]
+
+[tool.mypy]
+ignore_missing_imports = true
