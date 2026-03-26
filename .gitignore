@@ -2,6 +2,9 @@
 .sisyphus/evidence
 .sisyphus/boulder.json
 
+# Git worktrees
+.worktrees/
+
 # Python
 __pycache__/
 *.py[cod]
