@@ -66,3 +66,7 @@ tables = false
 # [MD044]
 # names = ["rumdl", "Markdown", "GitHub"]  # Proper names that should be capitalized correctly
 # code-blocks = false  # Check code blocks for proper names (default: false, skips code blocks)
+
+# Per-file rule ignores
+[per-file-ignores]
+".opencode/commands/*.md" = ["MD041"]  # Commands use frontmatter, no H1 needed
