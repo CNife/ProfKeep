@@ -1,5 +1,6 @@
 # Sisyphus agent state (keep plans only)
 .sisyphus/evidence
+.sisyphus/boulder.json
 
 # Python
 __pycache__/

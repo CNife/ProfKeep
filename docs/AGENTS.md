@@ -11,8 +11,15 @@ docs/
 ├── WORKFLOW.md        # 开发工作流（依赖图 + OMO 流程）
 ├── prd.md             # 产品需求文档
 ├── DATABASE.md        # 数据库设计文档 (待创建)
-└── DEPLOYMENT.md      # 部署指南 (待创建)
+├── DEPLOYMENT.md      # 部署指南 (待创建)
+└── step-plans/        # 分步实施计划草图
 ```
+
+## step-plans 目录说明
+
+`docs/step-plans/` 存放各功能模块的分步实施计划草图，用于规划具体开发任务。这些计划是开发前的规划文档，描述每个功能的实现步骤、依赖关系和验收标准。
+
+**注意**: 正在执行的工作计划存放在 `.sisyphus/plans/` 目录，由 Sisyphus 工作流系统管理。
 
 ## 核心文档
 
