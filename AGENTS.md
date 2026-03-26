@@ -20,13 +20,14 @@
 ## 核心约束
 
 1. **数据安全**: SQLite 本地存储，用户完全控制
-2. **API 限流**: Tushare 免费版每分钟 200 次，需实现 0.3 秒间隔限流
+2. **Tushare API**: 付费版，无需限流处理
 
 ## 模块规则
 
 | 模块 | 规则文件 |
 |------|----------|
 | 数据库模型 | `src/profkeep/models/AGENTS.md` |
+| 数据服务 | `src/profkeep/services/AGENTS.md` |
 | UI/屏幕 | `src/profkeep/screens/AGENTS.md` |
 
 ## 开发工作流
