@@ -41,11 +41,11 @@ uv pip install -e .
 ## 配置
 
 1. 注册 [Tushare](https://tushare.pro/) 账号并获取 Token
-2. 创建 `~/.tushare/token` 文件，写入 Token
+2. 创建 `~/.profkeep/.tushare.key` 文件，写入 Token
 
 ```bash
-mkdir -p ~/.tushare
-echo "your_token_here" > ~/.tushare/token
+mkdir -p ~/.profkeep
+echo "your_token_here" > ~/.profkeep/.tushare.key
 ```
 
 ## 使用
@@ -81,7 +81,8 @@ profkeep
 
 ```text
 ~/.profkeep/
-├── data.db      # SQLite 数据库
+├── data.db        # SQLite 数据库
+└── .tushare.key   # Tushare API Token
 ```
 
 ## 开发

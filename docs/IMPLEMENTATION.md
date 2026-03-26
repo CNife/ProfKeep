@@ -237,10 +237,12 @@ CREATE TABLE index_nav_history (
 ### 6.1 Token 管理
 
 ```python
-# Tushare 自动读取 ~/.tushare/token
-# 无需额外处理
 import tushare as ts
-pro = ts.pro_api()
+
+# 从 ~/.profkeep/.tushare.key 读取 token
+token_path = Path.home() / ".profkeep" / ".tushare.key"
+token = token_path.read_text().strip()
+pro = ts.pro_api(token)
 ```
 
 ### 6.2 API 调用封装
