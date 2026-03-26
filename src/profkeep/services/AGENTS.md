@@ -108,3 +108,32 @@ class AccountService:
 - 使用 `Account.model_validate()` 触发 Pydantic 验证器
 - 返回对象前调用 `session.refresh()` 确保字段完整
 - 删除操作依赖模型层 `cascade_delete=True` 配置
+
+## FundService
+
+基金信息服务类，提供基金信息的缓存查询和 Tushare API 集成。
+
+### 缓存优先查询模式
+
+```python
+async def get_or_create(self, code: str) -> Fund:
+    # 1. 先查本地缓存
+    fund = self.get_by_code(code)
+    if fund:
+        return fund
+
+    # 2. 缓存未命中，从 Tushare 获取
+    fund = await self.create_from_tushare(code)
+    return fund
+```
+
+### 异步方法
+
+- 所有涉及外部 API 的方法必须是 `async`
+- 使用 `async with Session()` 管理异步数据库会话
+
+### 错误处理
+
+- 无效基金代码：抛出 `ValueError("未找到该基金代码")`
+- 网络错误：抛出 `ConnectionError("网络错误，请重试")`
+- API 超时：抛出 `TimeoutError("查询超时，请重试")`

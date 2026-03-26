@@ -51,6 +51,55 @@ selected_row = table.cursor_row
 - 使用 `self.push_screen(ModalScreen())` 打开弹窗
 - 弹窗回调使用 `await self.push_screen_wait()` 或 `set_return_value()`
 
+## 异步操作模式
+
+### 禁止使用 asyncio.run()
+
+在 Textual 应用中，**禁止**使用 `asyncio.run()` 启动异步操作。它会阻塞主事件循环，导致 UI 卡死。
+
+```python
+# ❌ 错误：阻塞事件循环
+def on_input_changed(self, event: Input.Changed) -> None:
+    fund = asyncio.run(self.service.get_or_create(code))  # 阻塞！
+
+# ✅ 正确：使用 run_worker()
+def on_input_changed(self, event: Input.Changed) -> None:
+    self.run_worker(self._query_fund(code), exclusive=True)
+
+async def _query_fund(self, code: str) -> None:
+    fund = await self.service.get_or_create(code)
+    self.call_from_thread(lambda: self._update_display(fund))
+```
+
+### 异步更新 UI
+
+- 使用 `run_worker()` 启动后台任务
+- 使用 `call_from_thread()` 从后台线程更新 UI
+- 使用 `exclusive=True` 防止重复执行
+
+## 输入验证模式
+
+### 实时输入过滤
+
+```python
+def on_input_changed(self, event: Input.Changed) -> None:
+    if event.input.id == "fund-code-input":
+        code = event.value.strip()
+        # 只允许数字
+        if code and not code.isdigit():
+            event.input.value = code[:-1]  # 移除非法字符
+            return
+        # 满足条件时自动触发
+        if len(code) == 6:
+            self.run_worker(self._query_fund(code), exclusive=True)
+```
+
+### 错误显示
+
+- 基金名称显示：使用 `Static` 组件（只读，id="fund-name-display"）
+- 错误信息显示：使用 `Label` 组件（id="fund-code-error"）
+- 加载状态：使用 `LoadingIndicator` 组件
+
 ## Modal 组件模式
 
 ### ModalScreen 基类
