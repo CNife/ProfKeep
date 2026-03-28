@@ -175,3 +175,170 @@ async def test_screen_renders():
 - 复用 `setup_db` fixture 设置测试数据库
 - 使用 `pytest.fixture(autouse=True)` 确保每个测试独立
 - 测试中使用服务层 API 而非直接操作数据库
+
+## TransactionsScreen 实现模式
+
+### 快捷键绑定
+
+```python
+class TransactionsScreen(Screen):
+    BINDINGS = [
+        ("n", "add_transaction", "新增"),
+        ("e", "edit_transaction", "编辑"),
+        ("d", "delete_transaction", "删除"),
+        ("j", "cursor_down", "下移"),
+        ("k", "cursor_up", "上移"),
+        ("escape", "pop_screen", "返回"),
+    ]
+```
+
+### 账户筛选
+
+- 使用 `Select` 组件 (id="account-filter") 实现账户筛选
+- `on_mount` 时调用 `AccountService.get_all_accounts()` 加载选项
+- 默认选中第一个账户
+- 筛选变更时重新加载对应账户的交易列表
+
+### DataTable 列定义
+
+交易列表包含 10 列，按顺序：
+
+```python
+table.add_columns(
+    "日期",      # transaction.date
+    "类型",      # transaction.type (显示中文：买入/卖出/现金分红/红利再投资)
+    "基金代码",  # transaction.fund.code
+    "基金名称",  # transaction.fund.name
+    "份额",      # transaction.shares
+    "金额",      # transaction.amount
+    "手续费",    # transaction.fee
+    "净值",      # transaction.net_value
+    "确认状态",  # "已确认" / "未确认" (根据 transaction.confirmed)
+    "备注",      # transaction.notes
+)
+```
+
+### 空状态处理
+
+```python
+# DataTable 和空状态 Label 切换显示
+table = self.query_one("#transactions-table", DataTable)
+empty_state = self.query_one("#empty-state", Label)
+
+if transactions:
+    table.visible = True
+    empty_state.visible = False
+else:
+    table.visible = False
+    empty_state.visible = True
+    empty_state.update("暂无交易记录，按 n 新增")
+```
+
+### 加载交易流程
+
+```python
+async def _load_transactions(self) -> None:
+    """
+    加载交易列表：
+    1. 调用 TransactionService.auto_confirm_transactions() 触发 T+1 自动确认
+    2. 调用 TransactionService.list_transactions(account_id) 获取列表
+    3. 更新 DataTable 数据
+    4. 切换空状态显示
+    """
+```
+
+## TransactionFormModal 实现模式
+
+### 动态表单字段
+
+根据交易类型显示/隐藏字段：
+
+| 字段 | buy | sell | dividend_cash | dividend_reinvest |
+|------|-----|------|---------------|-------------------|
+| 日期 | ✓ | ✓ | ✓ | ✓ |
+| 基金代码 | ✓ | ✓ | ✓ | ✓ |
+| 份额 | ✓ | ✓ | ✗ | ✓ |
+| 金额 | ✓ | ✓ | ✓ | ✓ |
+| 手续费 | ✓ | ✓ | ✗ | ✗ |
+| 净值 | ✓ | ✓ | ✗ | ✗ |
+| 备注 | ✓ | ✓ | ✓ | ✓ |
+
+### 基金代码异步查询
+
+```python
+class TransactionFormModal(ModalScreen[None]):
+    def on_input_changed(self, event: Input.Changed) -> None:
+        if event.input.id == "fund-code-input":
+            code = event.value.strip()
+            # 只允许数字
+            if code and not code.isdigit():
+                event.input.value = code[:-1]
+                return
+            # 满 6 位自动查询
+            if len(code) == 6:
+                self.run_worker(self._query_fund(code), exclusive=True)
+
+    async def _query_fund(self, code: str) -> None:
+        """异步查询基金信息"""
+        try:
+            fund = await FundService.get_or_create(code)
+            self.call_from_thread(lambda: self._update_fund_name(fund.name))
+        except ValueError as e:
+            self.call_from_thread(lambda: self._show_error(str(e)))
+```
+
+### 编辑模式
+
+```python
+def __init__(self, account_id: int, transaction: Transaction | None = None):
+    super().__init__()
+    self.account_id = account_id
+    self.transaction = transaction  # None 为新增，有值为编辑
+    self.edit_mode = transaction is not None
+```
+
+- 编辑模式下，表单预填充已有数据
+- 标题显示 "新增交易" / "编辑交易"
+- 提交时调用 `create_transaction()` 或 `update_transaction()`
+
+### 提交验证
+
+- 基金代码：必须 6 位数字
+- 份额：正数，最多 4 位小数
+- 金额：正数，最多 2 位小数
+- 日期：有效日期格式 (YYYY-MM-DD)
+
+## DeleteTransactionModal 实现模式
+
+```python
+class DeleteTransactionModal(ModalScreen[None]):
+    BINDINGS = [("escape", "cancel", "取消")]
+
+    def __init__(self, transaction_id: int):
+        super().__init__()
+        self.transaction_id = transaction_id
+
+    def compose(self):
+        yield Label("确认删除")
+        yield Label("确定要删除这笔交易记录吗？")
+        yield Button("确认", id="confirm", variant="error")
+        yield Button("取消", id="cancel")
+
+    def on_button_pressed(self, event: Button.Pressed) -> None:
+        if event.button.id == "confirm":
+            TransactionService.delete_transaction(self.transaction_id)
+            self.dismiss(None)
+        else:
+            self.dismiss(None)
+```
+
+## 交易类型映射
+
+```python
+TRANSACTION_TYPE_LABELS = {
+    "buy": "买入",
+    "sell": "卖出",
+    "dividend_cash": "现金分红",
+    "dividend_reinvest": "红利再投资",
+}
+```

@@ -69,14 +69,28 @@ PRAGMA temp_store=MEMORY;
 
 ## 交易类型
 
-| 类型 | 说明 | 影响份额 |
-|------|------|---------|
-| buy | 买入 | +份额 |
-| sell | 卖出 | -份额 |
-| dividend_cash | 现金分红 | 不变 |
-| dividend_reinvest | 红利再投资 | +份额 |
+| 类型 | 说明 | 影响份额 | 影响持仓成本 |
+|------|------|---------|-------------|
+| buy | 买入 | +份额 | +金额 + 手续费 |
+| sell | 卖出 | -份额 | -金额 + 手续费 |
+| dividend_cash | 现金分红 | 不变 | 不变（不影响持仓） |
+| dividend_reinvest | 红利再投资 | +份额 | +金额 |
 
-每笔交易有 `confirmed` 字段，未确认交易不计入持仓计算。
+### 确认状态 (confirmed)
+
+- **已确认 (True)**: 计入持仓重算
+- **未确认 (False)**: 不计入持仓重算
+- **T+1 规则**: 交易日 + 1 个日历日后自动确认为已确认
+- **自动确认时机**: 加载交易列表时调用 `TransactionService.auto_confirm_transactions()`
+
+### 验证规则
+
+使用 `@model_validator` 实现交易类型必填字段验证：
+
+- **buy**: 必须填写 `shares` 和 `amount`
+- **sell**: 必须填写 `shares` 和 `amount`
+- **dividend_cash**: 必须填写 `amount`，不能有 `shares`
+- **dividend_reinvest**: 必须填写 `shares` 和 `amount`
 
 ## 持仓成本计算
 
