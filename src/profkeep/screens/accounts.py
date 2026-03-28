@@ -3,6 +3,7 @@ from textual.containers import Container, Horizontal
 from textual.screen import ModalScreen, Screen
 from textual.widgets import Button, DataTable, Footer, Header, Input, Label
 
+from profkeep.screens.holdings import HoldingsScreen
 from profkeep.services import AccountService
 
 
@@ -110,6 +111,7 @@ class AccountsScreen(Screen):
         ("d", "delete_account", "删除"),
         ("j", "cursor_down", "下移"),
         ("k", "cursor_up", "上移"),
+        ("enter", "view_holdings", "查看持仓"),
         ("escape", "back", "返回"),
     ]
 
@@ -203,6 +205,27 @@ class AccountsScreen(Screen):
 
     def action_back(self) -> None:
         self.app.pop_screen()
+
+    def action_view_holdings(self) -> None:
+        table = self.query_one("#accounts-table", DataTable)
+
+        if table.row_count == 0:
+            return
+
+        cursor_row = table.cursor_row
+        if cursor_row is None or cursor_row < 0:
+            return
+
+        row = table.get_row_at(cursor_row)
+        if row:
+            account_id = int(row[0])
+            account_name = row[1]
+            self.app.push_screen(HoldingsScreen(account_id, account_name))
+
+    def on_data_table_cell_selected(self, event: DataTable.CellSelected) -> None:
+        """处理 DataTable 的 Enter 键事件，跳转到持仓页面"""
+        if event.data_table.id == "accounts-table":
+            self.action_view_holdings()
 
     def _on_modal_dismiss(self, result: None) -> None:
         self._load_accounts()
