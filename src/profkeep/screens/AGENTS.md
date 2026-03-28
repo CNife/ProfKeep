@@ -45,6 +45,21 @@ table.move_cursor(row=0)  # 移动到第一行
 selected_row = table.cursor_row
 ```
 
+### DataTable 事件处理
+
+DataTable 默认 `cursor_type="cell"`，Enter 键触发 `CellSelected` 事件而非 `RowSelected`。
+
+```python
+# ✅ 正确：使用 CellSelected 处理 Enter 键
+def on_data_table_cell_selected(self, event: DataTable.CellSelected) -> None:
+    row_key = event.row_key
+    # 处理选中行
+
+# ❌ 错误：RowSelected 在 cell 模式下不会被触发
+def on_data_table_row_selected(self, event: DataTable.RowSelected) -> None:
+    # Enter 键不会触发此事件
+```
+
 ### 导航实现
 
 - 使用 `bind_escape = "pop_screen"` 实现 Esc 返回
