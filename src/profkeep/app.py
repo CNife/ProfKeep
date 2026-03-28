@@ -3,6 +3,7 @@ from textual.screen import Screen
 from textual.widgets import Footer, Header
 
 from profkeep.screens.accounts import AccountsScreen
+from profkeep.screens.transactions import TransactionsScreen
 
 
 class MainScreen(Screen):
@@ -18,6 +19,7 @@ class MainScreen(Screen):
 class FundKeeperApp(App):
     BINDINGS = [
         ("a", "accounts", "账户"),
+        ("t", "transactions", "交易"),
         ("q", "quit", "退出"),
     ]
 
@@ -26,6 +28,9 @@ class FundKeeperApp(App):
 
     def action_accounts(self):
         self.push_screen(AccountsScreen())
+
+    def action_transactions(self):
+        self.push_screen(TransactionsScreen())
 
 
 def main():
