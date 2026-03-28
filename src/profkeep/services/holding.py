@@ -12,6 +12,7 @@ from profkeep.models import database
 from profkeep.models.fund import Fund
 from profkeep.models.holding import Holding
 from profkeep.models.nav_history import FundNavHistory
+from profkeep.models.transaction import Transaction, TransactionType
 
 
 @dataclass
@@ -272,3 +273,61 @@ class HoldingService:
         ).first()
 
         return nav_record.nav if nav_record else None
+
+    def recalculate_from_transactions(self, account_id: int, fund_id: int) -> None:
+        """根据交易记录重新计算持仓。
+
+        Args:
+            account_id: 账户 ID。
+            fund_id: 基金 ID。
+        """
+        with Session(database.engine) as session:
+            transactions = session.exec(
+                select(Transaction).where(
+                    Transaction.account_id == account_id,
+                    Transaction.fund_id == fund_id,
+                    Transaction.confirmed.is_(True),
+                )
+            ).all()
+
+            buy_shares = Decimal("0")
+            buy_amount = Decimal("0")
+            sell_shares = Decimal("0")
+            sell_amount = Decimal("0")
+
+            for tx in transactions:
+                if tx.type == TransactionType.buy:
+                    buy_shares += tx.shares
+                    buy_amount += tx.amount + tx.fee
+                elif tx.type == TransactionType.sell:
+                    sell_shares += tx.shares
+                    sell_amount += tx.amount - tx.fee
+                elif tx.type == TransactionType.dividend_reinvest:
+                    buy_shares += tx.shares
+                    buy_amount += tx.amount if tx.amount else Decimal("0")
+
+            total_shares = buy_shares - sell_shares
+            total_cost = buy_amount - sell_amount
+
+            holding = session.exec(
+                select(Holding).where(Holding.account_id == account_id, Holding.fund_id == fund_id)
+            ).first()
+
+            if total_shares > 0:
+                cost_price = total_cost / total_shares
+                if holding:
+                    holding.shares = total_shares
+                    holding.cost_price = cost_price
+                    session.add(holding)
+                else:
+                    holding = Holding(
+                        account_id=account_id,
+                        fund_id=fund_id,
+                        shares=total_shares,
+                        cost_price=cost_price,
+                    )
+                    session.add(holding)
+            elif holding:
+                session.delete(holding)
+
+            session.commit()
