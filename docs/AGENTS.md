@@ -39,7 +39,7 @@ docs/
 
 **文档维护**: 全体开发人员共同维护文档的准确性和及时性。
 
-## 测试与开发规范
+## 测试规范
 
 ### TDD 工作流程
 
@@ -48,9 +48,7 @@ docs/
 - 测试失败后才编写实现代码
 - 测试通过后进行重构优化
 
-## 测试配置
-
-### pytest 要求
+### pytest 配置
 
 - pytest >= 8.0.0
 - pytest-asyncio 配置：`asyncio_mode = "auto"`
@@ -61,47 +59,6 @@ docs/
 - 每个测试用例独立，不依赖其他测试
 - 使用 `pytest.fixture(autouse=True)` 自动应用隔离
 
-### 测试模式
+---
 
-- 服务层测试：直接调用 Service 方法，验证 CRUD 操作
-- 级联删除测试：手动创建关联记录验证 `cascade_delete=True`
-- 使用 `session.query().filter().all()` 验证关联记录已删除
-
-## Textual 测试模式
-
-### Screen 测试
-
-- Screen 没有 `run_test()` 方法，需要创建 App 包装
-- 使用 `async with TestApp(screen).run_test() as pilot` 模式
-- 使用 `pilot.app.screen.query_one()` 查询 Screen 内组件
-
-### 异步测试
-
-- 使用 `await pilot.press()` 模拟按键
-- 使用 `await pilot.pause()` 等待 UI 更新
-- 按钮点击需要先 `focus()` 再按 `enter`
-
-### Modal 测试
-
-- 使用 `pilot.app.screen_stack[-1]` 获取当前 Modal
-- 通过 `get_screen()` 判断是否有弹窗
-
-## 代码质量工具
-
-### ruff
-
-```bash
-ruff format <file_or_dir>    # 代码格式化
-ruff check --fix <file_or_dir>  # 代码检查并修复
-```
-
-- 提交前必须通过检查和格式化
-- 行长度限制：100 字符
-
-### 测试运行
-
-```bash
-pytest                      # 运行所有测试
-pytest -v                   # 详细输出
-pytest tests/test_xxx.py    # 运行特定测试文件
-```
+> **注意**: Textual 测试模式、服务层测试模式、代码质量工具配置详见各模块 AGENTS.md 或用户全局配置。
