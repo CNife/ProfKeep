@@ -19,6 +19,7 @@ class MainScreen(Screen):
 class FundKeeperApp(App):
     BINDINGS = [
         ("a", "accounts", "账户"),
+        ("h", "holdings", "持仓"),
         ("t", "transactions", "交易"),
         ("q", "quit", "退出"),
     ]
@@ -31,6 +32,9 @@ class FundKeeperApp(App):
 
     def action_transactions(self):
         self.push_screen(TransactionsScreen())
+
+    def action_holdings(self):
+        self.push_screen(AccountsScreen())
 
 
 def main():
