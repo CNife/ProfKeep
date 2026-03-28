@@ -1,7 +1,4 @@
-# 11 - CSV 导入导出
-
-> **状态**: 待开始
-> **来源**: GitHub Issue #11
+# 10 - CSV 导入导出
 
 ## Parent PRD
 
@@ -33,7 +30,7 @@
 
 ### Blocked by
 
-- #7
+- #06
 
 ### User stories addressed
 

@@ -1,7 +1,4 @@
-# 04 - Tushare API 集成
-
-> **状态**: 待开始
-> **来源**: GitHub Issue #4
+# 03 - Tushare API 集成
 
 ## Parent PRD
 
@@ -28,7 +25,7 @@
 
 ### Blocked by
 
-- #2
+- #01
 
 ### User stories addressed
 
