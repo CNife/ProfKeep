@@ -283,28 +283,6 @@ class TushareService:
 | 接口限流 | 等待重试 | 弹窗："API 调用频率超限，请稍后重试" |
 | 基金代码不存在 | 跳过 | 弹窗："基金代码 {code} 不存在" |
 
-### 6.4 限流处理
-
-```python
-import time
-from functools import wraps
-
-def rate_limit(seconds: float = 0.3):
-    """Tushare 免费版限流：每分钟 200 次"""
-    def decorator(func):
-        last_call = [0.0]
-        @wraps(func)
-        def wrapper(*args, **kwargs):
-            elapsed = time.time() - last_call[0]
-            if elapsed < seconds:
-                time.sleep(seconds - elapsed)
-            result = func(*args, **kwargs)
-            last_call[0] = time.time()
-            return result
-        return wrapper
-    return decorator
-```
-
 ---
 
 ## 7. 用户界面设计
@@ -435,15 +413,12 @@ profkeep/
 │       │   ├── __init__.py
 │       │   ├── accounts.py        # 账户管理
 │       │   ├── holdings.py        # 持仓列表
-│       │   ├── transactions.py    # 交易记录
-│       │   └── charts.py          # 收益曲线
+│       │   └── transactions.py    # 交易记录
 │       ├── widgets/
-│       │   ├── __init__.py
-│       │   ├── chart.py           # Canvas 图表组件
-│       │   └── fund_input.py      # 基金代码输入（带搜索）
+│       │   └── __init__.py
 │       ├── models/
 │       │   ├── __init__.py
-│       │   ├── database.py        # SQLAlchemy 配置
+│       │   ├── database.py        # SQLModel 配置
 │       │   ├── account.py
 │       │   ├── fund.py
 │       │   ├── holding.py
@@ -451,22 +426,18 @@ profkeep/
 │       │   └── nav_history.py
 │       ├── services/
 │       │   ├── __init__.py
-│       │   ├── account_service.py
-│       │   ├── holding_service.py
-│       │   ├── transaction_service.py
-│       │   ├── nav_service.py     # 净值获取
+│       │   ├── account.py
+│       │   ├── holding.py
+│       │   ├── transaction.py
+│       │   ├── fund.py            # 基金信息获取
 │       │   └── tushare.py         # API 封装
 │       ├── utils/
-│       │   ├── __init__.py
-│       │   ├── calculators.py     # 持仓计算
-│       │   ├── formatters.py      # 格式化
-│       │   └── csv_handler.py     # CSV 导入导出
+│       │   └── __init__.py
 │       └── styles.tcss            # Textual CSS
 ├── tests/
 │   ├── __init__.py
 │   ├── test_models.py
-│   ├── test_services.py
-│   └── test_calculators.py
+│   └── test_services.py
 ├── docs/
 │   ├── AGENTS.md
 │   ├── IMPLEMENTATION.md          # 本文档
@@ -482,26 +453,57 @@ profkeep/
 name = "profkeep"
 version = "0.1.0"
 description = "基金账本 TUI 应用"
-requires-python = ">=3.11"
+readme = "README.md"
+authors = [
+    { name = "潭渊", email = "CNife@vip.qq.com" }
+]
+requires-python = ">=3.14"
 dependencies = [
-    "textual>=0.50.0",
-    "sqlalchemy>=2.0.0",
-    "tushare>=1.4.0",
-    "pandas>=2.0.0",
+    "pandas>=3.0.1",
+    "sqlalchemy>=2.0.48",
+    "sqlmodel>=0.0.37",
+    "textual>=8.1.1",
+    "tushare>=1.4.25",
 ]
 
 [project.scripts]
 profkeep = "profkeep.app:main"
 
+[dependency-groups]
+dev = [
+    "pytest>=8.0.0",
+    "mypy>=1.0.0",
+    "pre-commit>=4.5.1",
+    "pytest-asyncio>=1.3.0",
+]
+
 [build-system]
-requires = ["hatchling"]
-build-backend = "hatchling.build"
+requires = ["uv_build>=0.11.0,<0.12.0"]
+build-backend = "uv_build"
 
 [tool.ruff]
 line-length = 100
+target-version = "py314"
 
-[tool.ruff.format]
-quote-style = "double"
+[tool.ruff.lint]
+select = ["F", "E", "W", "I", "UP", "B", "C4", "SIM"]
+ignore = ["E501"]
+
+[tool.ruff.lint.per-file-ignores]
+# SQLModel + Python 3.14 兼容性要求：
+# - 必须使用 Optional[X] 而非 X | None
+# - Relationship 类型注解必须使用字符串形式 "X"
+"src/profkeep/models/*.py" = ["UP045", "UP037"]
+
+[tool.ruff.lint.isort]
+known-first-party = ["profkeep"]
+
+[tool.mypy]
+ignore_missing_imports = true
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+asyncio_default_fixture_loop_scope = "function"
 ```
 
 ---
@@ -568,12 +570,9 @@ quote-style = "double"
 |------|---------|
 | models/ | 字段约束、外键关联、唯一性约束 |
 | services/ | CRUD 操作、业务逻辑 |
-| utils/calculators.py | 成本计算、收益率计算 |
-| utils/csv_handler.py | CSV 格式验证、导入导出 |
 
 ### 13.2 不测试
 
-- UI 层（screens/）：TUI 组件测试复杂度高
 - Tushare API：外部依赖，使用 Mock 测试服务层
 
 ---
