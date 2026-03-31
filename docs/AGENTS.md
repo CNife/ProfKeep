@@ -9,7 +9,7 @@ docs/
 ├── AGENTS.md          # 文档目录说明
 ├── IMPLEMENTATION.md  # 实施方案
 ├── WORKFLOW.md        # 开发工作流（依赖图 + OMO 流程）
-├── prd.md             # 产品需求文档
+├── PRD.md             # 产品需求文档
 └── step-plans/        # 分步实施计划
     └── AGENTS.md      # 进度追踪（渐进式披露）
 ```
@@ -24,7 +24,7 @@ docs/
 
 ## 核心文档
 
-- **产品需求**: `docs/prd.md`
+- **产品需求**: `docs/PRD.md`
 - **实施方案**: `docs/IMPLEMENTATION.md`
 - **工作流程**: `docs/WORKFLOW.md`
 - **进度追踪**: `docs/step-plans/AGENTS.md`

@@ -31,7 +31,7 @@
 
 | 内容 | 位置 |
 |------|------|
-| 产品需求 | `docs/prd.md` |
+| 产品需求 | `docs/PRD.md` |
 | 实施方案 | `docs/IMPLEMENTATION.md` |
 | 开发工作流 | `docs/WORKFLOW.md` |
 | 文档规范 | `docs/AGENTS.md` |
