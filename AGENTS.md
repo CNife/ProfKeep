@@ -26,6 +26,8 @@
 | 数据库模型 | `src/profkeep/models/AGENTS.md` |
 | 数据服务 | `src/profkeep/services/AGENTS.md` |
 | UI/屏幕 | `src/profkeep/screens/AGENTS.md` |
+| UI 组件 | `src/profkeep/widgets/AGENTS.md` |
+| 工具函数 | `src/profkeep/utils/AGENTS.md` |
 
 ## 文档与进度
 
@@ -36,6 +38,39 @@
 | 开发工作流 | `docs/WORKFLOW.md` |
 | 文档规范 | `docs/AGENTS.md` |
 | 进度追踪 | `docs/step-plans/AGENTS.md` |
+
+## 测试规范
+
+### TDD 工作流程
+
+遵循 **RED → GREEN → REFACTOR** 循环：
+
+1. **RED**: 先写失败的测试（明确期望行为）
+2. **GREEN**: 编写最少代码让测试通过
+3. **REFACTOR**: 重构代码，保持测试通过
+
+### pytest 配置
+
+- **版本要求**: pytest >= 8.0.0
+- **异步支持**: `asyncio_mode = "auto"`（pytest-asyncio）
+- **测试数据库隔离**: 每个测试使用独立数据库实例
+
+### 测试数据库隔离
+
+```python
+@pytest.fixture(autouse=True)
+def setup_db(tmp_path):
+    """为每个测试创建独立的 SQLite 数据库"""
+    db_path = tmp_path / "test.db"
+    # 创建测试数据库并返回路径
+    yield db_path
+    # 清理测试数据库
+```
+
+## 样式文件
+
+- **位置**: `src/profkeep/styles.tcss`
+- **用途**: Textual CSS 样式定义，包含所有屏幕和组件的视觉样式
 
 ---
 

@@ -280,7 +280,6 @@ class TushareService:
 |---------|---------|---------|
 | 网络超时 | 重试 3 次 | 弹窗："网络超时，请稍后重试" |
 | Token 无效 | 停止请求 | 弹窗："Tushare Token 无效，请检查配置" |
-| 接口限流 | 等待重试 | 弹窗："API 调用频率超限，请稍后重试" |
 | 基金代码不存在 | 跳过 | 弹窗："基金代码 {code} 不存在" |
 
 ---
@@ -440,8 +439,7 @@ profkeep/
 │   └── test_services.py
 ├── docs/
 │   ├── AGENTS.md
-│   ├── IMPLEMENTATION.md          # 本文档
-│   └── DATABASE.md                # 数据库设计文档（待创建）
+│   └── IMPLEMENTATION.md          # 本文档
 ├── pyproject.toml
 └── README.md
 ```
@@ -557,7 +555,6 @@ asyncio_default_fixture_loop_scope = "function"
 |------|------|------|---------|
 | Textual 学习曲线超预期 | 中 | 延期 | 边做边学，先实现简单功能 |
 | Canvas 图表实现困难 | 中 | 功能削减 | 先用 Sparkline，后续优化 |
-| Tushare API 限流 | 低 | 用户体验下降 | 缓存 + 手动刷新 |
 | 大数据量性能问题 | 低 | 卡顿 | 分页加载，延迟计算 |
 
 ---

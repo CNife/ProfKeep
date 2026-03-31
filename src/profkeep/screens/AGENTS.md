@@ -249,19 +249,6 @@ else:
     empty_state.update("暂无交易记录，按 n 新增")
 ```
 
-### 加载交易流程
-
-```python
-async def _load_transactions(self) -> None:
-    """
-    加载交易列表：
-    1. 调用 TransactionService.auto_confirm_transactions() 触发 T+1 自动确认
-    2. 调用 TransactionService.list_transactions(account_id) 获取列表
-    3. 更新 DataTable 数据
-    4. 切换空状态显示
-    """
-```
-
 ## TransactionFormModal 实现模式
 
 ### 动态表单字段
@@ -341,7 +328,6 @@ class DeleteTransactionModal(ModalScreen[None]):
 
     def on_button_pressed(self, event: Button.Pressed) -> None:
         if event.button.id == "confirm":
-            TransactionService.delete_transaction(self.transaction_id)
             self.dismiss(None)
         else:
             self.dismiss(None)

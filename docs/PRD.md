@@ -222,8 +222,7 @@ ProfKeep/
 │   ├── utils/                 # 工具函数
 │   └── styles.tcss            # Textual CSS
 ├── tests/
-│   ├── test_models.py
-│   └── test_services.py
+│   └── test_models.py
 ├── pyproject.toml
 └── README.md
 ```
