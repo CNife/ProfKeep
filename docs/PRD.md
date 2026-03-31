@@ -1,6 +1,6 @@
 # 01 - FundKeeper TUI MVP
 
-> **状态**: 待开始
+> **状态**: 开发中
 > **来源**: GitHub Issue #1
 
 ## Problem Statement
@@ -53,7 +53,6 @@
 17. 作为投资者，我想手动刷新基金净值数据，以便获取最新的持仓市值
 18. 作为投资者，输入 6 位基金代码时，系统自动查询并显示基金名称，以便确认基金正确
 19. 作为投资者，如果网络请求失败，我想看到友好的错误提示，而不是程序崩溃
-20. 作为投资者，如果 Tushare API 限流，我想看到等待提示，系统自动重试
 
 ### 持仓计算
 
@@ -88,8 +87,8 @@
 
 1. **技术栈**：Python 3.11+ + Textual + SQLAlchemy + SQLite + Tushare
 2. **架构模式**：单体应用，无前后端分离
-3. **数据存储**：本地 SQLite，路径 `~/.fundkeeper/data.db`
-4. **安装方式**：`uv tool install fund-keeper`
+3. **数据存储**：本地 SQLite，路径 `~/.profkeep/data.db`
+4. **安装方式**：`uv tool install profkeep`
 
 ### 持仓计算
 
@@ -111,8 +110,7 @@
 
 9. **刷新策略**：仅手动刷新（按 r 键），不自动刷新
 10. **缓存时间**：净值数据缓存 7 天
-11. **限流处理**：Tushare 免费版限制每分钟 200 次，实现 0.3 秒间隔的限流器
-12. **基金信息自动补全**：输入 6 位基金代码后自动查询并显示基金名称
+11. **基金信息自动补全**：输入 6 位基金代码后自动查询并显示基金名称
 
 ### 数据验证
 
@@ -200,17 +198,14 @@
 ### 项目结构
 
 ```text
-fund-keeper/
-├── src/fund_keeper/
+ProfKeep/
+├── src/profkeep/
 │   ├── app.py                 # Textual App 入口
 │   ├── screens/               # 屏幕/页面
 │   │   ├── accounts.py
 │   │   ├── holdings.py
-│   │   ├── transactions.py
-│   │   └── charts.py
+│   │   └── transactions.py
 │   ├── widgets/               # 自定义组件
-│   │   ├── chart.py           # Canvas 图表
-│   │   └── fund_input.py      # 基金代码输入
 │   ├── models/                # SQLAlchemy 模型
 │   │   ├── database.py
 │   │   ├── account.py
@@ -219,32 +214,23 @@ fund-keeper/
 │   │   ├── transaction.py
 │   │   └── nav_history.py
 │   ├── services/              # 业务逻辑
-│   │   ├── account_service.py
-│   │   ├── holding_service.py
-│   │   ├── transaction_service.py
-│   │   ├── nav_service.py
+│   │   ├── account.py
+│   │   ├── holding.py
+│   │   ├── transaction.py
+│   │   ├── fund.py
 │   │   └── tushare.py
 │   ├── utils/                 # 工具函数
-│   │   ├── calculators.py
-│   │   ├── formatters.py
-│   │   └── csv_handler.py
 │   └── styles.tcss            # Textual CSS
 ├── tests/
 │   ├── test_models.py
-│   ├── test_services.py
-│   └── test_calculators.py
+│   └── test_services.py
 ├── pyproject.toml
 └── README.md
 ```
 
 ### 实施计划
 
-参见 `.sisyphus/plans/tui-implementation-plan.md`，分 4 周完成：
-
-- Week 1: 基础框架
-- Week 2: 核心功能
-- Week 3: 图表功能
-- Week 4: 完善和发布
+参见 `docs/IMPLEMENTATION.md`，分阶段实施。
 
 ### 风险缓解
 
@@ -252,5 +238,4 @@ fund-keeper/
 |------|---------|
 | Textual 学习曲线 | 边做边学，先实现简单功能 |
 | Canvas 图表困难 | 先用 Sparkline，后续优化 |
-| Tushare API 限流 | 缓存 + 手动刷新 |
 | 大数据量性能问题 | 分页加载，延迟计算 |
