@@ -124,7 +124,7 @@ Wave 2 (AI 文档重构 — 全部独立，可并行):
 
 ## TODOs
 
-- [ ] 0. 重命名 `docs/prd.md` → `docs/PRD.md`，更新所有引用
+- [x] 0. 重命名 `docs/prd.md` → `docs/PRD.md`，更新所有引用
 
   **What to do**:
   - `git mv docs/prd.md docs/PRD.md`
@@ -140,7 +140,7 @@ Wave 2 (AI 文档重构 — 全部独立，可并行):
 
 ---
 
-- [ ] 1. 修正 `docs/PRD.md` 过时信息
+- [x] 1. 修正 `docs/PRD.md` 过时信息
 
   **What to do**:
   - **状态行**（第3行）: "待开始" → "开发中"
@@ -191,7 +191,7 @@ Wave 2 (AI 文档重构 — 全部独立，可并行):
 
 ---
 
-- [ ] 2. 修正 `docs/IMPLEMENTATION.md` 过时信息
+- [x] 2. 修正 `docs/IMPLEMENTATION.md` 过时信息
 
   **What to do**:
   - **删除 §6.4 限流处理代码**（第288-306行）: 整个 `rate_limit` 装饰器代码块
@@ -239,7 +239,7 @@ Wave 2 (AI 文档重构 — 全部独立，可并行):
 
 ---
 
-- [ ] 3. 精简 `docs/AGENTS.md`
+- [x] 3. 精简 `docs/AGENTS.md`
 
   **What to do**:
   - **删除"核心文档"章节**（第25-30行）: 与"文档结构"章节重复
@@ -275,7 +275,7 @@ Wave 2 (AI 文档重构 — 全部独立，可并行):
 
 ---
 
-- [ ] 4. 精简 `src/profkeep/screens/AGENTS.md`
+- [x] 4. 精简 `src/profkeep/screens/AGENTS.md`
 
   **What to do**:
   - **删除"加载交易流程"代码块**（第252-263行）: 描述调用 TransactionService 方法的流程，属于服务层逻辑，不属于 UI 规则
@@ -321,7 +321,7 @@ Wave 2 (AI 文档重构 — 全部独立，可并行):
 
 ---
 
-- [ ] 5. 增强根 `AGENTS.md`
+- [x] 5. 增强根 `AGENTS.md`
 
   **What to do**:
   - **模块规则表** 新增两行:
@@ -365,7 +365,7 @@ Wave 2 (AI 文档重构 — 全部独立，可并行):
 
 ---
 
-- [ ] 6. 新建 `src/profkeep/widgets/AGENTS.md`
+- [x] 6. 新建 `src/profkeep/widgets/AGENTS.md`
 
   **What to do**:
   - 创建文件，说明 widgets 目录职责
@@ -403,7 +403,7 @@ Wave 2 (AI 文档重构 — 全部独立，可并行):
 
 ---
 
-- [ ] 7. 新建 `src/profkeep/utils/AGENTS.md`
+- [x] 7. 新建 `src/profkeep/utils/AGENTS.md`
 
   **What to do**:
   - 创建文件，说明 utils 目录职责
@@ -445,19 +445,19 @@ Wave 2 (AI 文档重构 — 全部独立，可并行):
 
 > 4 review agents run in PARALLEL. ALL must APPROVE. Present consolidated results to user and get explicit "okay" before completing.
 
-- [ ] F1. **Plan Compliance Audit** — `oracle`
+- [x] F1. **Plan Compliance Audit** — `oracle`
   Read the plan end-to-end. For each "Must Have": verify implementation exists. For each "Must NOT Have": search codebase for forbidden patterns. Check all 8 files were modified/created correctly.
   Output: `Must Have [N/N] | Must NOT Have [N/N] | Tasks [N/N] | VERDICT: APPROVE/REJECT`
 
-- [ ] F2. **Content Quality Review** — `unspecified-high`
+- [x] F2. **Content Quality Review** — `unspecified-high`
   Read all modified files. Verify: no broken references, no orphaned content, no duplicate information between AGENTS.md files, human docs are self-contained, AI docs are precise and non-redundant.
   Output: `Broken refs [N] | Orphaned content [N] | Duplicates [N] | VERDICT`
 
-- [ ] F3. **Real Manual QA** — `unspecified-high`
+- [x] F3. **Real Manual QA** — `unspecified-high`
   Verify each acceptance criterion by reading the actual files: grep for old naming in PRD.md, grep for rate_limit in IMPLEMENTATION.md, verify widgets/AGENTS.md and utils/AGENTS.md exist and have content.
   Output: `Criteria [N/N pass] | VERDICT`
 
-- [ ] F4. **Scope Fidelity Check** — `deep`
+- [x] F4. **Scope Fidelity Check** — `deep`
   For each task: read "What to do", read actual diff. Verify 1:1 compliance. No modifications outside the 8 target files. No changes to README.md, WORKFLOW.md, or any source code.
   Output: `Tasks [N/N compliant] | Out-of-scope [CLEAN/N] | VERDICT`
 
@@ -488,8 +488,8 @@ test -f src/profkeep/utils/AGENTS.md  # Expected: exit 0
 ```
 
 ### Final Checklist
-- [ ] 所有人类文档中无过时引用
-- [ ] 每个 AGENTS.md 只包含自己目录职责范围内的内容
-- [ ] widgets/ 和 utils/ 有 AGENTS.md
-- [ ] 根 AGENTS.md 包含完整的模块索引和测试规范
-- [ ] 未修改 README.md、WORKFLOW.md、任何源代码文件
+- [x] 所有人类文档中无过时引用
+- [x] 每个 AGENTS.md 只包含自己目录职责范围内的内容
+- [x] widgets/ 和 utils/ 有 AGENTS.md
+- [x] 根 AGENTS.md 包含完整的模块索引和测试规范
+- [x] 未修改 README.md、WORKFLOW.md、任何源代码文件
